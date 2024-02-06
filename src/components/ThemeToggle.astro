@@ -1,0 +1,18 @@
+<div class="theme-toggle__wrapper">
+    <input type="checkbox" data-theme-toggle>
+</div>
+
+<style>
+</style>
+
+<script is:inline>
+const themeToggle = document.querySelector('[data-theme-toggle]');
+
+themeToggle.addEventListener('change', () => {
+    document.body.classList.toggle('light');
+});
+
+// TODO: Add localstorage update + on page load
+// once we update this toggle to radio buttons
+// for accessibility
+</script>
