@@ -10,11 +10,6 @@
         white 60%
     );
 }
-html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
-    background-size: 224px;
-}
 code {
     font-family:
         Menlo,
@@ -28,8 +23,9 @@ code {
 }
 /* end */
 html {
-    background-color: rgb(8, 7, 31);
-    font-family: sans-serif;
+    background: #15171d;
+    font-family: system-ui, sans-serif;
+    color: rgb(227, 221, 194);
 }
 
 body {
