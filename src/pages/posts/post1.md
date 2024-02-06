@@ -1,15 +1,13 @@
 ---
-title: 'My First Blog Post'
+layout: ../../layouts/MarkdownPostLayout.astro
+title: 'The "sizeof" Operator in C#'
 pubDate: 2022-07-01
 description: 'This is the first post of my new Astro blog.'
 author: 'Astro Learner'
-image:
-    url: 'https://docs.astro.build/assets/full-logo-light.png'
-    alt: 'The full Astro logo.'
-tags: ["astro", "blogging", "learning in public"]
+tags: ["csharp"]
 ---
 
-# Title of post 1
+# Title here?
 
 ## this is heading level 2
 testing paragraph

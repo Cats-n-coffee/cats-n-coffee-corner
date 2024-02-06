@@ -1,11 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
+
+const allPosts = await Astro.glob('../pages/posts/*.md');
 ---
 
 <Layout title="Cats n Coffee Corner">
 	<main>
-        <Navbar />
 		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
 		<p class="instructions">
 			To get started, open the directory <code>src/pages</code> in your project.<br />
@@ -13,11 +13,7 @@ import Navbar from '../components/Navbar.astro';
 		</p>
         <h2>Posts</h2>
         <ul>
-            <li>
-				<a href="/posts/post1/">Post 1</a>
-                <a href="/posts/post2/">Post 2</a>
-                <a href="/posts/post3/">Post 3</a>
-            </li>
+            {allPosts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
         </ul>
 	</main>
 </Layout>

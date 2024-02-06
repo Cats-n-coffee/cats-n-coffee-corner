@@ -1,0 +1,25 @@
+---
+import Layout from './Layout.astro';
+import '../styles/global.css';
+
+const { frontmatter } = Astro.props;
+---
+<Layout title="Cats n Coffee Corner test">
+    {
+        frontmatter.title &&
+        <h1>{ frontmatter.title }</h1>
+    }
+    {
+        frontmatter.author &&
+        <p>Written by { frontmatter.author }</p>
+    }
+    {
+        frontmatter.pubDate &&
+        <p>Published on { frontmatter.pubDate.slice(0, 10) }</p>
+    }
+    {
+        frontmatter.image &&
+        <img src={ frontmatter.image.url } width="200" alt={ frontmatter.image.alt }/>
+    }
+    <slot />
+</Layout>
