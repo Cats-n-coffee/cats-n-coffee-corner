@@ -17,7 +17,7 @@ const { frontmatter } = Astro.props;
     }
     {
         frontmatter.pubDate &&
-        <p>Published on { frontmatter.pubDate.slice(0, 10) }</p>
+        <p>Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
     }
     {
         frontmatter.image &&

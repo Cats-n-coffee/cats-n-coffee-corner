@@ -1,7 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-const allPosts = await Astro.glob('../pages/posts/*.md');
+const allPosts = await getCollection('posts');
 ---
 
 <Layout title="Cats n Coffee Corner">
@@ -13,7 +14,7 @@ const allPosts = await Astro.glob('../pages/posts/*.md');
 		</p>
         <h2>Posts</h2>
         <ul>
-            {allPosts.map((post) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+            {allPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
         </ul>
 	</main>
 </Layout>
@@ -43,12 +44,5 @@ const allPosts = await Astro.glob('../pages/posts/*.md');
 		line-height: 1;
 		text-align: center;
 		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
 	}
 </style>

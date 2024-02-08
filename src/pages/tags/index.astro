@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+import '../../styles/global.css';
+
+const allPosts = await getCollection('posts');
+const allTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+---
+
+<Layout title="Cats n Coffee Corner">
+	<main>
+		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
+		
+		<h2>Available Tags</h2>
+		<ul role="list" class="link-card-grid">
+			{
+				allTags.map((tag) => <li><a href={`/tags/${tag}`}>{ tag }</a></li>)
+			}
+		</ul>
+	</main>
+</Layout>

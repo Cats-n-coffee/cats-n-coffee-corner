@@ -1,7 +1,6 @@
 ---
-layout: ../../layouts/MarkdownPostLayout.astro
 title: 'The "sizeof" Operator in C#'
-pubDate: 02-06-2024
+pubDate: 2024-02-06
 description: 'Notes from C# sizeof video and readings'
 author: 'Cats n Coffee'
 tags: ["csharp", "learning notes"]
