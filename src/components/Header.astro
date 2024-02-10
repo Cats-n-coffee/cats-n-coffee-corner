@@ -1,11 +1,11 @@
 ---
 import Navbar from './Navbar.astro';
-import MobileMenu from './MobileMenu.astro';
+import MobileMenuOpen from './MobileMenuOpen.astro';
 import ThemeToggle from './ThemeToggle.astro';
 ---
 <header>
     <nav>
-        <MobileMenu />
+        <MobileMenuOpen />
         <Navbar />
     </nav>
     <ThemeToggle />
@@ -15,5 +15,7 @@ import ThemeToggle from './ThemeToggle.astro';
 header {
     display: flex;
     justify-content: space-between;
+    background: var(--secondary-medium);
+    padding: 1em;
 }
 </style>

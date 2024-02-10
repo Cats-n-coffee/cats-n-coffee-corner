@@ -1,14 +1,23 @@
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 /* styles from original layout */
 :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
+    --primary: 136, 58, 234;
+    --primary-light: 224, 204, 250;
+    --primary-dark: 49, 10, 101;
+    --primary-gradient: linear-gradient(
         45deg,
-        rgb(var(--accent)),
-        rgb(var(--accent-light)) 30%,
+        rgb(var(--primary)),
+        rgb(var(--primary-light)) 30%,
         white 60%
     );
+    --secondary: #15171d;;
+    --secondary-medium: #1f222c;
+    --contrast: rgb(201, 193, 158);
+    --contrast-medium: rgb(201, 193, 158);
 }
 code {
     font-family:
@@ -27,17 +36,15 @@ html {
 }
 
 body {
-    margin: 0 auto;
     width: 100%;
-    padding: 1rem;
-    line-height: 1.5;
-    background: #15171d;
+    background: var(--secondary);
     color: rgb(227, 221, 194);
 }
 
 body.light {
-    background: rgb(227, 221, 194);
-    color: #15171d;
+    --secondary: rgb(227, 221, 194);
+    --secondary-medium: rgb(201, 193, 158);
+    --contrast: #15171d;
 }
 
 * {
@@ -50,14 +57,15 @@ h1 {
 }
 
 .text-gradient {
-    background-image: var(--accent-gradient);
+    background-image: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 400%;
     background-position: 0%;
 }
 
-.mobile-menu {
+.mobile-menu-open {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -69,22 +77,59 @@ h1 {
     background-color: blueviolet;
 }
 
-.navbar {
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
     display: none;
-    flex-direction: column;
+    padding: 1em;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
 }
 
-.navbar.expanded {
+.navbar {
     display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+
+    li {
+        padding: 2em 0;
+    }
+}
+
+.navbar-wrapper.expanded {
+    display: grid;
 }
 
 @media screen and (min-width: 636px) {
-    .navbar {
-        display: flex;
-        flex-direction: row;
+    .navbar-wrapper {
+        position: static;
+        display: block;
+        width: auto;
+        height: auto;
+        padding: 0;
+
+        .navbar {
+            flex-direction: row;
+            align-self: unset;
+            justify-self: unset;
+
+            li {
+                padding: 0 2em;
+            }
+        }
     }
 
-    .mobile-menu {
+    .mobile-menu-open {
+        display: none;
+    }
+
+    .mobile-menu-close {
         display: none;
     }
 }
