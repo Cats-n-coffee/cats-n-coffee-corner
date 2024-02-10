@@ -1,18 +1,42 @@
 <div class="theme-toggle__wrapper">
-    <input type="checkbox" data-theme-toggle>
+    <button
+      class="theme-toggle__button"
+      type="button"
+      aria-pressed="false"
+      aria-label="Switch Theme"
+      data-theme-toggle>
+        <span class="theme-toggle__icon-light">light</span>
+        <span class="theme-toggle__icon-dark">dark</span>
+    </button>
 </div>
 
 <style>
+body.light button[data-theme-toggle] > .theme-toggle__icon-light {
+    display: none;
+}
+
+body.light button[data-theme-toggle] > .theme-toggle__icon-dark {
+    display: block;
+}
+
+body button[data-theme-toggle] > .theme-toggle__icon-light {
+    display: block;
+}
+
+body button[data-theme-toggle] > .theme-toggle__icon-dark {
+    display: none;
+}
 </style>
 
 <script is:inline>
 const themeToggle = document.querySelector('[data-theme-toggle]');
 
-themeToggle.addEventListener('change', () => {
+themeToggle.addEventListener('click', (e) => {
+    let ariaPressedValue = e.target.getAttribute('aria-pressed') === 'false';
+    e.target.setAttribute('aria-pressed', String(!ariaPressedValue));
+
     document.body.classList.toggle('light');
 });
 
 // TODO: Add localstorage update + on page load
-// once we update this toggle to radio buttons
-// for accessibility
 </script>

@@ -1,7 +1,12 @@
 ---
 ---
 <div class="navbar-wrapper">
-    <div class="mobile-menu-close">Close</div>
+    <button
+      class="mobile-menu-close"
+      aria-label="Close"
+    >
+        Close
+    </button>
     <ul class="navbar">
         <li><a href="/">Home</a></li>
         <li><a href="/playground/">Playground</a></li>
@@ -12,6 +17,10 @@
 
 
 <style>
+    .navbar-wrapper {
+        background: var(--secondary-medium);
+    }
+
     .navbar li {
         list-style-type: none;
     }
