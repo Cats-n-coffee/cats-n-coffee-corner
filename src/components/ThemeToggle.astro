@@ -1,3 +1,6 @@
+---
+import { Icon } from 'astro-icon/components';
+---
 <div class="theme-toggle__wrapper">
     <button
       class="theme-toggle__button"
@@ -5,26 +8,50 @@
       aria-pressed="false"
       aria-label="Switch Theme"
       data-theme-toggle>
-        <span class="theme-toggle__icon-light">light</span>
-        <span class="theme-toggle__icon-dark">dark</span>
+      <div class="theme-toggle__icon">
+        <Icon class="theme-toggle__icon-light" name="sun" />
+        <Icon class="theme-toggle__icon-dark" name="moon" />
+      </div>
     </button>
 </div>
 
 <style>
-body.light button[data-theme-toggle] > .theme-toggle__icon-light {
+.theme-toggle__button {
+    position: relative;
+    border: none;
+    width: 44px;
+    height: 22px;
+    background-color: var(--primary);
+    border-radius: 20px;
+
+    .theme-toggle__icon {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: var(--contrast);
+        color: var(--secondary-medium);
+        transition: transform 300ms ease-in-out;
+    }
+}
+
+body.light button[data-theme-toggle] .theme-toggle__icon-light,
+body button[data-theme-toggle] .theme-toggle__icon-dark {
     display: none;
 }
 
-body.light button[data-theme-toggle] > .theme-toggle__icon-dark {
+body.light button[data-theme-toggle] .theme-toggle__icon-dark,
+body button[data-theme-toggle] .theme-toggle__icon-light {
     display: block;
 }
 
-body button[data-theme-toggle] > .theme-toggle__icon-light {
-    display: block;
-}
-
-body button[data-theme-toggle] > .theme-toggle__icon-dark {
-    display: none;
+body.light button[data-theme-toggle] .theme-toggle__icon {
+    transform: translate(20px, 0);
 }
 </style>
 

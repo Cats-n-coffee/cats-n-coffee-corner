@@ -5,13 +5,13 @@
 }
 /* styles from original layout */
 :root {
-    --primary: 136, 58, 234;
-    --primary-light: 224, 204, 250;
-    --primary-dark: 49, 10, 101;
+    --primary: rgb(136, 58, 234);
+    --primary-light: rgb(224, 204, 250);
+    --primary-dark: rgb(49, 10, 101);
     --primary-gradient: linear-gradient(
         45deg,
-        rgb(var(--primary)),
-        rgb(var(--primary-light)) 30%,
+        var(--primary),
+        var(--primary-light) 30%,
         white 60%
     );
     --secondary: #15171d;;
@@ -74,7 +74,7 @@ h1 {
 .mobile-menu-line {
     width: 30px;
     height: 5px;
-    background-color: blueviolet;
+    background-color: var(--primary);
 }
 
 .navbar-wrapper {
