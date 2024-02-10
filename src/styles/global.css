@@ -38,7 +38,7 @@ html {
 body {
     width: 100%;
     background: var(--secondary);
-    color: rgb(227, 221, 194);
+    color: var(--contrast);
 }
 
 body.light {

@@ -20,8 +20,9 @@ const { frontmatter } = Astro.props;
         <p>Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
     }
     {
-        frontmatter.image &&
-        <img src={ frontmatter.image.url } width="200" alt={ frontmatter.image.alt }/>
+        (frontmatter.image && frontmatter.image.url)
+        ? <img src={ frontmatter.image.url } width="200" alt={ frontmatter.image.alt }/>
+        : <br/>
     }
     {
         frontmatter.introType &&

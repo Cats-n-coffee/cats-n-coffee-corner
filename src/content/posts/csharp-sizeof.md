@@ -3,6 +3,9 @@ title: 'The "sizeof" Operator in C#'
 pubDate: 2024-02-06
 description: 'Notes from C# sizeof video and readings'
 author: 'Cats n Coffee'
+image:
+    url: ''
+    alt: ''
 tags: ["csharp", "learning notes"]
 introType: 'notesIntro'
 ---
