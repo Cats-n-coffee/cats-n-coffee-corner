@@ -3,7 +3,7 @@
     margin: 0;
     box-sizing: border-box;
 }
-/* styles from original layout */
+
 :root {
     --primary: rgb(136, 58, 234);
     --primary-light: rgb(224, 204, 250);
@@ -14,11 +14,43 @@
         var(--primary-light) 30%,
         white 60%
     );
-    --secondary: #15171d;;
+    --secondary: #15171d;
+    --secondary-light: #303542;
     --secondary-medium: #1f222c;
-    --contrast: rgb(201, 193, 158);
+    --secondary-dark: #060608;
+    --contrast: rgb(233, 221, 173);
+    --contrast-light: rgb(242, 237, 211);
     --contrast-medium: rgb(201, 193, 158);
+    --contrast-dark: rgb(156, 148, 112);
+    --contrast-color: rgb(224, 204, 250);
 }
+
+html, body {   
+    font-family: system-ui, sans-serif;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary);
+    color: var(--contrast);
+}
+
+body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+}
+
+body.light {
+    --secondary: rgb(233, 221, 173);
+    --secondary-light: rgb(242, 237, 211);
+    --secondary-medium: rgb(201, 193, 158);
+    --secondary-dark: rgb(156, 148, 112);
+    --contrast: #15171d;
+    --contrast-light: #303542;
+    --contrast-medium: #1f222c;
+    --contrast-dark: #060608;
+    --contrast-color: rgb(49, 10, 101);
+}
+
 code {
     font-family:
         Menlo,
@@ -30,31 +62,10 @@ code {
         Courier New,
         monospace;
 }
-/* end */
-html {   
-    font-family: system-ui, sans-serif; 
-}
 
-body {
-    width: 100%;
-    background: var(--secondary);
-    color: var(--contrast);
-}
-
-body.light {
-    --secondary: rgb(227, 221, 194);
-    --secondary-medium: rgb(201, 193, 158);
-    --contrast: #15171d;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-h1 {
-    margin: 1rem 0;
-    font-size: 2.5rem;
-}
+/* pre code {
+    padding: 0.5em;
+} */
 
 .text-gradient {
     background-image: var(--primary-gradient);

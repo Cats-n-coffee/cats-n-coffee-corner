@@ -1,6 +1,6 @@
 ---
 title: 'Building This Page: Theme Toggle and Accessibility'
-author: 'Cats n Coffee'
+author: 'Cats-n-Coffee'
 description: 'Notes from building a decent page.'
 pubDate: 2024-02-09
 image:

@@ -6,27 +6,93 @@ import '../styles/global.css';
 const { frontmatter } = Astro.props;
 ---
 <Layout title="Cats n Coffee Corner test">
-    <a href="/blog/">Back to Blog page</a>
-    {
-        frontmatter.title &&
-        <h1>{ frontmatter.title }</h1>
-    }
-    {
-        frontmatter.author &&
-        <p>Written by { frontmatter.author }</p>
-    }
-    {
-        frontmatter.pubDate &&
-        <p>Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
-    }
-    {
-        (frontmatter.image && frontmatter.image.url)
-        ? <img src={ frontmatter.image.url } width="200" alt={ frontmatter.image.alt }/>
-        : <br/>
-    }
-    {
-        frontmatter.introType &&
-        <i>{intros[frontmatter.introType as keyof typeof intros]}</i>
-    }
-    <slot />
+
+    <main>
+        <a class="back-to-blogs__link" href="/blog/">Back to Blog page</a>
+
+        {
+            frontmatter.title &&
+            <h1 class="post-title">{ frontmatter.title }</h1>
+        }
+        <section class="post-details">
+            {
+                frontmatter.author &&
+                <p class="post-details-author">Written by { frontmatter.author } -</p>
+            }
+            {
+                frontmatter.pubDate &&
+                <p class="post-details-date">- Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
+            }
+        </section>
+        {
+            (frontmatter.image && frontmatter.image.url)
+            ? <img src={ frontmatter.image.url } width="200" alt={ frontmatter.image.alt }/>
+            : <br/>
+        }
+        {
+            frontmatter.introType &&
+            <i>{intros[frontmatter.introType as keyof typeof intros]}</i>
+        }
+
+        <div class="post-content">
+            <slot />
+        </div>
+    </main>
+
 </Layout>
+
+<style>
+main {
+    padding: 1em 1em 1.5em 1em;
+}
+
+.post-title {
+    font-size: 2.5em;
+    padding: 1em 0;
+    color: var(--contrast-light);
+}
+
+.post-details {
+    display: flex;
+}
+
+.post-details-author, .post-details-date {
+    font-size: 1em;
+    font-style: italic;
+}
+
+.post-content {
+    p {
+        padding: 0.5em 0;
+        line-height: 1.6em;
+    }
+
+    h2 {
+        font-size: 1.75em;
+        padding: 1em 0;
+        color: var(--contrast-color);
+    }
+
+    h3 {
+        font-size: 1.25em;
+        padding: 0.75em 0;
+        color: var(--contrast-light);
+    }
+
+    pre {
+        padding: 0.75em;
+        margin: 0.25em 0 0.75em 0;
+
+        code > span{
+            line-height: 1.5em;
+        }
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    main {
+        max-width: 1050px;
+        justify-self: center;
+    }
+}
+</style>
