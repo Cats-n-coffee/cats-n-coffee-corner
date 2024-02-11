@@ -25,7 +25,9 @@
     --contrast-color: rgb(224, 204, 250);
 }
 
-html, body {   
+html, body {
+    min-height: 100vh;
+    min-width: 100vw;
     font-family: system-ui, sans-serif;
     background: var(--secondary);
     color: var(--contrast);
@@ -53,6 +55,10 @@ body.mobile-menu-opened {
     overflow: hidden;
 }
 
+main {
+    padding: 1em 1em 1.5em 1em;
+}
+
 code {
     font-family:
         Menlo,
@@ -65,9 +71,17 @@ code {
         monospace;
 }
 
-/* pre code {
-    padding: 0.5em;
-} */
+h1 {
+    font-size: 4em;
+    font-weight: 700;
+    text-align: center;
+    color: var(--primary-gradient);
+    margin: 0.1em 0 1em 0;
+}
+
+ol, ul {
+    list-style-position: inside;
+}
 
 .text-gradient {
     background-image: var(--primary-gradient);
@@ -137,5 +151,12 @@ code {
 
     .mobile-menu-close {
         display: none;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    main {
+        max-width: 1050px;
+        justify-self: center;
     }
 }
