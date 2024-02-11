@@ -1,6 +1,7 @@
 ---
 import Layout from './Layout.astro';
 import intros from '../constants/content/intros.js';
+import { Icon } from 'astro-icon/components';
 import '../styles/global.css';
 
 const { frontmatter } = Astro.props;
@@ -8,7 +9,13 @@ const { frontmatter } = Astro.props;
 <Layout title="Cats n Coffee Corner test">
 
     <main>
-        <a class="back-to-blogs__link" href="/blog/">Back to Blog page</a>
+        <a class="back-to-posts__link" href="/blog/">
+            <Icon
+              class="back-to-posts__icon"
+              name="arrow-left"
+            />
+            Back to Posts
+        </a>
 
         {
             frontmatter.title &&
@@ -44,6 +51,14 @@ const { frontmatter } = Astro.props;
 <style>
 main {
     padding: 1em 1em 1.5em 1em;
+}
+
+.back-to-posts__link {
+    color: var(--contrast-color);
+}
+
+.back-to-posts__icon {
+    color: var(--contrast-color);
 }
 
 .post-title {
@@ -86,6 +101,10 @@ main {
         code > span{
             line-height: 1.5em;
         }
+    }
+
+    ol, ul {
+        list-style-position: inside;
     }
 }
 
