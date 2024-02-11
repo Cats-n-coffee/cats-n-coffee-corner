@@ -91,6 +91,7 @@ ol, ul {
     background-position: 0%;
 }
 
+/* ============================ Mobile Menu and Navbar ============================ */
 .mobile-menu-open {
     position: relative;
     display: flex;
@@ -126,6 +127,41 @@ ol, ul {
     display: grid;
 }
 
+/* ================================== Common =================================== */
+.basic-heading-two {
+    font-size: 2em;
+    padding-bottom: 1em;
+}
+
+.basic-list {
+    padding: 0 1em;
+    li {
+        list-style: none;
+        line-height: 2em;
+
+        a {
+            color: var(--contrast);
+            text-decoration: none;
+
+            &:visited {
+                color: var(--contrast);
+            }
+
+            &:hover, &:hover .back-to-posts__icon {
+                color: var(--contrast-color);
+                transition: color 300ms ease-in-out;
+            }
+
+            &:focus, &:focus .back-to-posts__icon {
+                color: var(--contrast-color);
+                font-weight: 500;
+                transition: color 300ms ease-in-out;
+            }
+        }
+    }
+}
+
+/* ================================= Media Queries ============================= */
 @media screen and (min-width: 636px) {
     .navbar-wrapper {
         position: static;

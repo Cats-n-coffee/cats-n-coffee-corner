@@ -8,44 +8,9 @@ const allPosts = await getCollection('posts');
 <Layout title="Cats-n-Coffee Corner">
 	<main>
 		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
-        <h2>Posts Available</h2>
-        <ul>
+        <h2 class="basic-heading-two">Posts Available</h2>
+        <ul class="basic-list">
             {allPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
         </ul>
 	</main>
 </Layout>
-
-<style>
-h2 {
-    font-size: 2em;
-    padding-bottom: 1em;
-}
-
-ul {
-    padding: 0 1em;
-    li {
-        list-style: none;
-        line-height: 2em;
-
-        a {
-            color: var(--contrast);
-            text-decoration: none;
-
-            &:visited {
-                color: var(--contrast);
-            }
-
-            &:hover, &:hover .back-to-posts__icon {
-                color: var(--contrast-color);
-                transition: color 300ms ease-in-out;
-            }
-
-            &:focus, &:focus .back-to-posts__icon {
-                color: var(--contrast-color);
-                font-weight: 500;
-                transition: color 300ms ease-in-out;
-            }
-        }
-    }
-}
-</style>
