@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CatFullSize from '../assets/cat-full-size.svg?raw';
 
 import '../styles/global.css';
 ---
@@ -7,29 +8,48 @@ import '../styles/global.css';
 <Layout title="Cats n Coffee Corner">
 	<main>
 		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
-		<p>
-			Fun Things Coming Soon...
-		</p>
-		<p>Find all available tags <a href="/tags/">here</a></p>
+		<section class="home-content">
+			<div class="home-content-left">
+				<Fragment set:html={CatFullSize} />
+			</div>
+			
+			<div class="home-content-right">
+				<p>
+					Fun Things Coming Soon...
+				</p>
+				<p>Find all available tags <a href="/tags/">here</a></p>
+			</div>
+		</section>
 	</main>
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
+	.home-content {
+		display: flex;
+		justify-content: center;
 	}
 
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
+	.home-content-left {
+		width: 400px;
+		height: auto;
+
+		svg {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	.home-content-right {
+		margin-left: 40px;
+		font-size: 1.25em;
+		line-height: 1.5em;
+
+		a, a:visited {
+			color: var(--contrast);
+
+			&:hover {
+				color: var(--contrast-color);
+			}
+		}
 	}
 </style>
