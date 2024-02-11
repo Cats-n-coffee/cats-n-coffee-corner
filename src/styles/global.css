@@ -51,6 +51,10 @@ body.light {
     --contrast-color: rgb(49, 10, 101);
 }
 
+body.mobile-menu-opened {
+    overflow: hidden;
+}
+
 code {
     font-family:
         Menlo,
