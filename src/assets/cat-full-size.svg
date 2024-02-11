@@ -1,0 +1,35 @@
+<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" style="background: black">
+  <path d="M 25,50
+           l 20,-30
+           l 20,30
+           l 20,0
+           l 20,-30
+           l 20,30
+           l 0,30
+           s 0,50 -50,50
+           s -50,-50 -50,-50
+           l 0,-30" fill="black" stroke="#a6025c" stroke-width="3"/>
+  <!-- Eyes and nose -->
+  <path d="M 50,70
+           l 10,0" stroke="#a6025c" stroke-width="3"/>
+  <path d="M 90,70
+           l 10,0" stroke="#a6025c" stroke-width="3"/>
+  <path d="M 70,90
+           l 10,0
+           l -5,5
+           l -5,-5" fill="#a6025c" stroke="#a6025c"/>
+  <!-- Whiskers left -->
+  <path d="M 65,95
+           l -25,-10" stroke="#a6025c"/>
+   <path d="M 65,95
+           l -25,0" stroke="#a6025c"/>
+  <path d="M 65,95
+           l -25,10" stroke="#a6025c"/>
+<!--   Whiskers right -->
+  <path d="M 85,95
+           l 25,-10" stroke="#a6025c"/>
+   <path d="M 85,95
+           l 25,0" stroke="#a6025c"/>
+  <path d="M 85,95
+           l 25,10" stroke="#a6025c"/>
+</svg>

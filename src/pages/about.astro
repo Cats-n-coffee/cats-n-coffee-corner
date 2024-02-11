@@ -8,11 +8,15 @@ import '../styles/global.css';
         <h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
     
         <section class="playground-content">
-			<p>Projects Page Under Construction</p>
+			<p>About Page Under Construction</p>
 			<div class="playground-content-illustration">
 				<Icon name="screwdriver-wrench" />
 			</div>
 		</section>
+        <p class="about-this-page">This site uses <a href="https://astro.build/" target="_blank">Astro</a> and 
+            <a href="https://fontawesome.com/" target="_blank">Font Awesome</a>
+             icons.
+        </p>
     </main>
 </Layout>
 
@@ -33,6 +37,19 @@ import '../styles/global.css';
     svg {
         width: 150px;
         height: auto;
+    }
+}
+
+.about-this-page {
+    text-align: center;
+    padding-top: 2em;
+
+    a, a:visited {
+        color: var(--contrast-color);
+
+        &:hover {
+            color: var(--contrast-color);
+        }
     }
 }
 </style>

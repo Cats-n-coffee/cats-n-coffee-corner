@@ -1,34 +1,39 @@
 ---
+import { Icon } from 'astro-icon/components';
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
-
-const foo = 'foo';
 ---
 
 <Layout title="Cats n Coffee Corner">
 	<main>
 		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
 
-        <p>Playground</p>
-        <p>{ foo }</p>
+        <section class="playground-content">
+			<p>Playground Under Construction</p>
+			<div class="playground-content-illustration">
+				<Icon name="screwdriver-wrench" />
+			</div>
+		</section>
 	</main>
 </Layout>
 
 <style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
+.playground-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	p {
+		font-size: 1.5em;
 	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
+}
+
+.playground-content-illustration {
+	margin-top: 3em;
+
+	svg {
+		width: 150px;
+		height: auto;
 	}
+}
 </style>
