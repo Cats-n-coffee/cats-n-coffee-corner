@@ -23,6 +23,7 @@ import { Icon } from 'astro-icon/components';
     height: 22px;
     background-color: var(--primary);
     border-radius: 20px;
+    cursor: pointer;
 
     .theme-toggle__icon {
         position: absolute;
@@ -38,6 +39,15 @@ import { Icon } from 'astro-icon/components';
         color: var(--secondary-medium);
         transition: transform 300ms ease-in-out;
     }
+
+    &:hover {
+        box-shadow: 1px 1px 5px 1px var(--primary);
+        transition: box-shadow 400ms ease-in-out;
+    }
+
+    &:focus .theme-toggle__icon {
+        outline: solid 2px var(--secondary-light);
+    }
 }
 
 body.light button[data-theme-toggle] .theme-toggle__icon-light,
@@ -51,7 +61,7 @@ body button[data-theme-toggle] .theme-toggle__icon-light {
 }
 
 body.light button[data-theme-toggle] .theme-toggle__icon {
-    transform: translate(20px, 0);
+    transform: translate(22px, 0);
 }
 </style>
 

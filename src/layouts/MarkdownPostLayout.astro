@@ -55,10 +55,28 @@ main {
 
 .back-to-posts__link {
     color: var(--contrast-color);
-}
+    text-decoration: none;
+    display: flex;
 
-.back-to-posts__icon {
-    color: var(--contrast-color);
+    .back-to-posts__icon {
+        color: var(--contrast-color);
+        margin-right: 10px;
+    }
+
+    &:visited {
+        color: var(--contrast-color);
+    }
+
+    &:hover, &:hover .back-to-posts__icon {
+        color: var(--primary);
+        transition: color 300ms ease-in-out;
+    }
+
+    &:focus, &:focus .back-to-posts__icon {
+        color: var(--primary);
+        font-weight: 500;
+        transition: color 300ms ease-in-out;
+    }
 }
 
 .post-title {

@@ -25,12 +25,24 @@ import { Icon } from 'astro-icon/components';
     border: none;
     width: 3em;
     height: 3em;
-}
+    cursor: pointer;
 
-.mobile-menu-close__icon {
-    color: var(--contrast-color);
-    width: 100%;
-    height: 100%;
+    .mobile-menu-close__icon {
+        color: var(--contrast-color);
+        width: 100%;
+        height: 100%;
+    }
+
+    &:hover .mobile-menu-close__icon {
+        color: var(--primary);
+        transition: color 300ms ease-in-out;
+    }
+
+    &:focus .mobile-menu-close__icon {
+        color: var(--primary);
+        font-weight: 500;
+        transition: color 300ms ease-in-out;
+    }
 }
 
 .navbar-wrapper {
@@ -43,6 +55,7 @@ import { Icon } from 'astro-icon/components';
 }
 
 a {
+    color: var(--contrast-medium);
     text-decoration: none;
 }
 </style>
