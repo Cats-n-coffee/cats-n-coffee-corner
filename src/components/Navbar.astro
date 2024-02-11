@@ -52,6 +52,35 @@ import { Icon } from 'astro-icon/components';
 
 .navbar li {
     list-style-type: none;
+
+    a {
+        position: relative;
+        transition: color 400ms ease-in-out;
+    }
+
+    a:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--contrast-light);
+        opacity: 0;
+        transition: all 400ms ease-in-out;
+    }
+
+    &:hover a {
+        color: var(--contrast-light);
+    }
+
+    &:hover a:after {
+        opacity: 1; 
+    }
+
+    &:focus a {
+        color: var(--primary-light);
+    }
 }
 
 a {
