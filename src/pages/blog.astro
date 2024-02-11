@@ -8,10 +8,6 @@ const allPosts = await getCollection('posts');
 <Layout title="Cats n Coffee Corner">
 	<main>
 		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
         <h2>Posts</h2>
         <ul>
             {allPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
@@ -29,15 +25,7 @@ const allPosts = await getCollection('posts');
 		font-size: 20px;
 		line-height: 1.6;
 	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
+
 	h1 {
 		font-size: 4rem;
 		font-weight: 700;
