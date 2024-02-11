@@ -27,8 +27,6 @@
 
 html, body {   
     font-family: system-ui, sans-serif;
-    width: 100%;
-    height: 100%;
     background: var(--secondary);
     color: var(--contrast);
 }
@@ -82,14 +80,6 @@ code {
 .mobile-menu-open {
     position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.mobile-menu-line {
-    width: 30px;
-    height: 5px;
-    background-color: var(--primary);
 }
 
 .navbar-wrapper {
@@ -114,6 +104,7 @@ code {
 
     li {
         padding: 2em 0;
+        text-align: center;
     }
 }
 

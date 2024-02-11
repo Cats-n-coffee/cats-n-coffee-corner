@@ -1,16 +1,36 @@
 ---
 ---
-<div class="mobile-menu-open">
+<button class="mobile-menu-open" type="button" aria-label="Open menu">
     <span class="mobile-menu-line"></span>
     <span class="mobile-menu-line"></span>
     <span class="mobile-menu-line"></span>
-</div>
+</button>
 
 <style>
 .mobile-menu-open {
-    cursor: pointer;
+    background: none;
+    border: none;
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-direction: column;
+    gap: 3px;
+    cursor: pointer;
+    transition: all 400ms ease-in-out;
+
+    .mobile-menu-line {
+        width: 30px;
+        height: 5px;
+        background-color: var(--primary);
+        transition: all 400ms ease-in;
+    }
+
+    &:hover {
+        gap: 5px;
+
+        .mobile-menu-line {
+            background-color: var(--primary-light);
+        }
+    }
 }
 </style>
