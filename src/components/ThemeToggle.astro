@@ -65,15 +65,19 @@ body.light button[data-theme-toggle] .theme-toggle__icon {
 }
 </style>
 
-<script is:inline>
+<script>
+import { updateLocalStorage } from '../scripts/common/localStorage.js';
+
 const themeToggle = document.querySelector('[data-theme-toggle]');
 
-themeToggle.addEventListener('click', (e) => {
-    let ariaPressedValue = e.target.getAttribute('aria-pressed') === 'false';
-    e.target.setAttribute('aria-pressed', String(!ariaPressedValue));
+themeToggle?.addEventListener('click', (e) => {
+    const eventTarget = e.target as HTMLButtonElement;
+    let ariaPressedValue = eventTarget?.getAttribute('aria-pressed') === 'false';
+    eventTarget?.setAttribute('aria-pressed', String(ariaPressedValue));
 
     document.body.classList.toggle('light');
-});
 
-// TODO: Add localstorage update + on page load
+    const storageValue = ariaPressedValue ? 'light' : 'dark';
+    updateLocalStorage('themeValue', storageValue);
+});
 </script>
