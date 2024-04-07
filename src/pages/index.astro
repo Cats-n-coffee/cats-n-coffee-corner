@@ -24,32 +24,35 @@ import '../styles/global.css';
 </Layout>
 
 <style>
-	.home-content {
-		display: flex;
-		justify-content: center;
-	}
+main {
+    padding: 1em 1em 1.5em 1em;
+}
+.home-content {
+	display: flex;
+	justify-content: center;
+}
 
-	.home-content-left {
-		width: 400px;
+.home-content-left {
+	width: 400px;
+	height: auto;
+
+	svg {
+		width: 100%;
 		height: auto;
+	}
+}
 
-		svg {
-			width: 100%;
-			height: auto;
+.home-content-right {
+	margin-left: 40px;
+	font-size: 1.25em;
+	line-height: 1.5em;
+
+	a, a:visited {
+		color: var(--contrast);
+
+		&:hover {
+			color: var(--contrast-color);
 		}
 	}
-
-	.home-content-right {
-		margin-left: 40px;
-		font-size: 1.25em;
-		line-height: 1.5em;
-
-		a, a:visited {
-			color: var(--contrast);
-
-			&:hover {
-				color: var(--contrast-color);
-			}
-		}
-	}
+}
 </style>

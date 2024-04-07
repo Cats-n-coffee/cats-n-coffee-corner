@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/global.css';
+---
+
+<Layout title="Cats n Coffee Corner">
+	<main>
+        <canvas class="webgl"></canvas>
+	</main>
+    <script>
+        import '../../scripts/playground/homePageCat';
+    </script>
+</Layout>
+
+<style>
+canvas.webgl {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url('/src/assets/images/homepagebgtest.jpg') no-repeat center center;
+    background-size: cover;
+}
+</style>
