@@ -37,6 +37,8 @@ body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto 1fr;
+    justify-items: stretch;
+    align-items: stretch;
 }
 
 body.light {
@@ -187,12 +189,5 @@ ol, ul {
 
     .mobile-menu-close {
         display: none;
-    }
-}
-
-@media screen and (min-width: 1050px) {
-    main {
-        max-width: 1050px;
-        justify-self: center;
     }
 }
