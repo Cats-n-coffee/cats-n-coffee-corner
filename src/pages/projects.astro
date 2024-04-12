@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 ---
 <Layout title="Cats n Coffee Corner">
-    <main>
+    <div class="main-content">
         <h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
     
         <section class="playground-content">
@@ -13,7 +13,7 @@ import '../styles/global.css';
 				<Icon name="screwdriver-wrench" />
 			</div>
 		</section>
-    </main>
+    </div>
 </Layout>
 
 <style>
@@ -24,6 +24,7 @@ import '../styles/global.css';
 
     p {
         font-size: 1.5em;
+        text-align: center;
     }
 }
 
@@ -33,6 +34,13 @@ import '../styles/global.css';
     svg {
         width: 150px;
         height: auto;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .main-content {
+        max-width: 1050px;
+        margin: 0 auto;
     }
 }
 </style>
