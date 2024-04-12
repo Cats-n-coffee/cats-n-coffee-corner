@@ -7,6 +7,7 @@ image:
     url: ''
     alt: ''
 tags: ['building this page', 'frontend', 'javascript']
+introType: ''
 ---
 While building this blog, a lot of ideas are coming to mind. One of them is to make this page as accessible as possible, so everyone who might come across it has a good experience.
 

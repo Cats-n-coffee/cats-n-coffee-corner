@@ -38,9 +38,11 @@ const { frontmatter } = Astro.props;
         }
         {
             frontmatter.introType &&
-            <i>{intros[frontmatter.introType as keyof typeof intros]}</i>
+            <p class="post-intro">
+                <i >{intros[frontmatter.introType as keyof typeof intros]}</i>
+            </p>
         }
-
+        
         <div class="post-content">
             <slot />
         </div>
@@ -53,6 +55,7 @@ const { frontmatter } = Astro.props;
     color: var(--contrast-color);
     text-decoration: none;
     display: flex;
+    align-items: center;
 
     .back-to-posts__icon {
         color: var(--contrast-color);
@@ -88,6 +91,10 @@ const { frontmatter } = Astro.props;
 .post-details-author, .post-details-date {
     font-size: 1em;
     font-style: italic;
+}
+
+.post-intro {
+    padding-bottom: 1em;
 }
 
 .post-content {
