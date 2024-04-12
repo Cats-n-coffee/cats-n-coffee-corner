@@ -1,19 +1,20 @@
 ---
 import { Icon } from 'astro-icon/components';
 ---
-<div class="theme-toggle__wrapper">
-    <button
-      class="theme-toggle__button"
-      type="button"
-      aria-pressed="false"
-      aria-label="Switch Theme"
-      data-theme-toggle>
-      <div class="theme-toggle__icon">
-        <Icon class="theme-toggle__icon-light" name="sun" />
-        <Icon class="theme-toggle__icon-dark" name="moon" />
-      </div>
-    </button>
-</div>
+
+<button
+    class="theme-toggle__button"
+    type="button"
+    aria-pressed="false"
+    aria-label="Switch Theme"
+    data-theme-toggle
+>
+        <div class="theme-toggle__icon">
+            <Icon class="theme-toggle__icon-light" name="sun" />
+            <Icon class="theme-toggle__icon-dark" name="moon" />
+        </div>
+</button>
+
 
 <style>
 .theme-toggle__button {

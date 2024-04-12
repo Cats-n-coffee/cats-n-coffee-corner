@@ -4,18 +4,28 @@ import MobileMenuOpen from './MobileMenuOpen.astro';
 import ThemeToggle from './ThemeToggle.astro';
 ---
 <header>
-    <nav>
-        <MobileMenuOpen />
-        <Navbar />
-    </nav>
-    <ThemeToggle />
+    <div class="header-inner">
+        <nav>
+            <MobileMenuOpen />
+            <Navbar />
+        </nav>
+        <ThemeToggle />
+    </div>
 </header>
 
 <style>
 header {
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
     background: var(--secondary-medium);
     padding: 1em;
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1920px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
 }
 </style>
