@@ -8,7 +8,7 @@ const { frontmatter } = Astro.props;
 ---
 <Layout title="Cats n Coffee Corner test">
 
-    <main>
+    <div class="main-content">
         <a class="back-to-posts__link" href="/blog/">
             <Icon
               class="back-to-posts__icon"
@@ -28,7 +28,7 @@ const { frontmatter } = Astro.props;
             }
             {
                 frontmatter.pubDate &&
-                <p class="post-details-date">- Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
+                <p class="post-details-date">- Published on { frontmatter.pubDate.toString().slice(0, 15) }</p>
             }
         </section>
         {
@@ -44,7 +44,7 @@ const { frontmatter } = Astro.props;
         <div class="post-content">
             <slot />
         </div>
-    </main>
+    </div>
 
 </Layout>
 
@@ -119,6 +119,13 @@ const { frontmatter } = Astro.props;
 
     ol, ul {
         list-style-position: inside;
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .main-content {
+        max-width: 1050px;
+        margin: 0 auto;
     }
 }
 </style>
