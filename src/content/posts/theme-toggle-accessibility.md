@@ -17,8 +17,8 @@ Most of my frontend knowledge comes from building projects and reading or lookin
 ## Scratching the Surface
 Back to the theme toggle, and remembering a conversation on Frontend Mentor where - to summarize - members said there are many way to implement them, but a lot of solutions are not actually accessible. 
 Looking into this while building the theme toggle for this page, a quick Google search (or Brave rather) gives us some good reads:
-1. [An Accessible Toggle by Kitty Giraudel](https://kittygiraudel.com/2021/04/05/an-accessible-toggle/)
-2. [Under Engineered Toggles Too by Adrian Roselli](https://adrianroselli.com/2019/08/under-engineered-toggles-too.html)
+- [An Accessible Toggle by Kitty Giraudel](https://kittygiraudel.com/2021/04/05/an-accessible-toggle/)
+- [Under Engineered Toggles Too by Adrian Roselli](https://adrianroselli.com/2019/08/under-engineered-toggles-too.html)
 
 Using those articles to decide on a first version, the `<button>` option seems to make the most sense as we're using the toggle control for a theme switcher. The second article explains the whys of checkbox vs button, and it makes sense.
 
