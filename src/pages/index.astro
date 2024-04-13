@@ -6,9 +6,9 @@ import PixelCat from '../assets/pixel-cat1.svg?raw';
 import '../styles/global.css';
 
 const allPosts = await getCollection('posts');
-const sortedPosts = allPosts.sort(
-	(a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime(),
-);
+const sortedPosts = allPosts
+  .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime())
+  .slice(-5);
 ---
 
 <Layout title="Cats n Coffee Corner">
@@ -85,6 +85,7 @@ const sortedPosts = allPosts.sort(
 		border: 1px solid var(--secondary-light);
 		border-radius: 6px;
 		line-height: normal;
+		margin-left: 0;
 
 		p {
 			font-size: 0.75em;
