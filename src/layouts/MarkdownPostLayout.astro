@@ -125,7 +125,13 @@ const { frontmatter } = Astro.props;
     }
 
     ol, ul {
-        list-style-position: inside;
+        padding-left: 0;
+        margin-left: 0;
+
+        li {
+            margin-left: 1em;
+            line-height: 1.7em;
+        }
     }
 }
 

@@ -82,7 +82,12 @@ h1 {
 }
 
 ol, ul {
-    list-style-position: inside;
+    padding-left: 0;
+    margin-left: 0;
+
+    li {
+        margin-left: 1em;
+    }
 }
 
 .text-gradient {
