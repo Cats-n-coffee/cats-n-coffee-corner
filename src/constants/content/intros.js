@@ -4,4 +4,6 @@ export default {
     I enjoy because it helps me understand and dig deeper, and can help others
     clarify areas of grey. Please refer to the original content linked in the post
     for all the details.`,
+    improvingPatternsIntro: `These are my notes about improving basic programming patterns.
+    There might be mistakes, better solutions, and trade offs.`
 };

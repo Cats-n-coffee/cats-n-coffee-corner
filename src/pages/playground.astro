@@ -5,7 +5,7 @@ import '../styles/global.css';
 ---
 
 <Layout title="Cats n Coffee Corner">
-	<main>
+	<div class="main-content">
 		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
 
         <section class="playground-content">
@@ -15,7 +15,7 @@ import '../styles/global.css';
 				<a href="/playground/cat/">Home Page building</a>
 			</div>
 		</section>
-	</main>
+	</div>
 </Layout>
 
 <style>
@@ -30,6 +30,7 @@ main {
 
 	p {
 		font-size: 1.5em;
+		text-align: center;
 	}
 }
 
@@ -40,5 +41,12 @@ main {
 		width: 150px;
 		height: auto;
 	}
+}
+
+@media screen and (min-width: 1050px) {
+    .main-content {
+        max-width: 1050px;
+        margin: 0 auto;
+    }
 }
 </style>

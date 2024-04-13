@@ -6,9 +6,9 @@ import '../styles/global.css';
 
 const { frontmatter } = Astro.props;
 ---
-<Layout title="Cats n Coffee Corner test">
+<Layout title="Cats n Coffee Corner">
 
-    <main>
+    <div class="main-content">
         <a class="back-to-posts__link" href="/blog/">
             <Icon
               class="back-to-posts__icon"
@@ -28,7 +28,7 @@ const { frontmatter } = Astro.props;
             }
             {
                 frontmatter.pubDate &&
-                <p class="post-details-date">- Published on { frontmatter.pubDate.toString().slice(0, 10) }</p>
+                <p class="post-details-date">- Published on { frontmatter.pubDate.toString().slice(0, 15) }</p>
             }
         </section>
         {
@@ -38,13 +38,15 @@ const { frontmatter } = Astro.props;
         }
         {
             frontmatter.introType &&
-            <i>{intros[frontmatter.introType as keyof typeof intros]}</i>
+            <p class="post-intro">
+                <i >{intros[frontmatter.introType as keyof typeof intros]}</i>
+            </p>
         }
-
+        
         <div class="post-content">
             <slot />
         </div>
-    </main>
+    </div>
 
 </Layout>
 
@@ -53,6 +55,7 @@ const { frontmatter } = Astro.props;
     color: var(--contrast-color);
     text-decoration: none;
     display: flex;
+    align-items: center;
 
     .back-to-posts__icon {
         color: var(--contrast-color);
@@ -90,6 +93,10 @@ const { frontmatter } = Astro.props;
     font-style: italic;
 }
 
+.post-intro {
+    padding-bottom: 1em;
+}
+
 .post-content {
     p {
         padding: 0.5em 0;
@@ -118,7 +125,20 @@ const { frontmatter } = Astro.props;
     }
 
     ol, ul {
-        list-style-position: inside;
+        padding-left: 0;
+        margin-left: 0;
+
+        li {
+            margin-left: 1em;
+            line-height: 1.7em;
+        }
+    }
+}
+
+@media screen and (min-width: 1050px) {
+    .main-content {
+        max-width: 1050px;
+        margin: 0 auto;
     }
 }
 </style>

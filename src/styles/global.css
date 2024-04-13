@@ -38,6 +38,8 @@ body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto 1fr;
+    justify-items: stretch;
+    align-items: stretch;
 }
 
 body.light {
@@ -77,7 +79,12 @@ h1 {
 }
 
 ol, ul {
-    list-style-position: inside;
+    padding-left: 0;
+    margin-left: 0;
+
+    li {
+        margin-left: 1em;
+    }
 }
 
 .text-gradient {
@@ -173,7 +180,7 @@ ol, ul {
             justify-self: unset;
 
             li {
-                padding: 0 2em;
+                padding: 0 1.5em;
             }
         }
     }
@@ -184,12 +191,5 @@ ol, ul {
 
     .mobile-menu-close {
         display: none;
-    }
-}
-
-@media screen and (min-width: 1050px) {
-    main {
-        max-width: 1050px;
-        justify-self: center;
     }
 }

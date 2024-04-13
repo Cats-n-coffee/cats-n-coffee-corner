@@ -1,12 +1,18 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import PixelCat from '../assets/pixel-cat1.svg?raw';
 
 import '../styles/global.css';
+
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts
+  .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime())
+  .slice(-5);
 ---
 
 <Layout title="Cats n Coffee Corner">
-	<main>
+	<div class="main-content">
 		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
 		<section class="home-content">
 			<div class="home-content-left">
@@ -14,22 +20,29 @@ import '../styles/global.css';
 			</div>
 			
 			<div class="home-content-right">
-				<p>
-					Fun Things Coming Soon...
-				</p>
-				<p>Find all available tags <a href="/tags/">here</a></p>
+				<h2 class="basic-heading-two">Latest Posts</h2>
+				<ul role="list" class="posts-list basic-list">
+					{
+						sortedPosts.map((post) => <li>
+								<a href={`posts/${post.slug}`}>
+									<p>{post.data.pubDate.toString().slice(3, 15)}</p>
+									<span>{post.data.title}</span>
+								</a>
+							</li>
+						)
+					}
+				</ul>
+				<p class="posts-list-all-tags">Find all available tags <a href="/tags/">here</a></p>
 			</div>
 		</section>
-	</main>
+	</div>
 </Layout>
 
 <style>
-main {
-    padding: 1em 1em 1.5em 1em;
-}
 .home-content {
 	display: flex;
-	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 .home-content-left {
@@ -46,6 +59,7 @@ main {
 	margin-left: 40px;
 	font-size: 1.25em;
 	line-height: 1.5em;
+	padding-top: 2em;
 
 	a, a:visited {
 		color: var(--contrast);
@@ -53,6 +67,60 @@ main {
 		&:hover {
 			color: var(--contrast-color);
 		}
+	}
+	
+	.posts-list-all-tags {
+		padding-top: 2em;
+		font-size: 0.9em;
+	}
+}
+
+.posts-list {
+	padding: 0;
+
+	li {
+		font-size: 0.8em;
+		padding: 0.7em 0.9em;
+		background: var(--secondary-medium);
+		border: 1px solid var(--secondary-light);
+		border-radius: 6px;
+		line-height: normal;
+		margin-left: 0;
+
+		p {
+			font-size: 0.75em;
+			text-transform: uppercase;
+			padding-bottom: 0.5em;
+		}
+
+		&:hover {
+			background: var(--secondary-light);
+			cursor: pointer;
+		}
+	}
+
+	li:not(:last-child) {
+		margin-bottom: 4px;
+	}
+}
+
+@media screen and (min-width: 635px) {
+	.home-content {
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 0 2em;
+	}
+
+	.home-content-right {
+		max-width: 400px;
+		padding-top: 0;
+	}
+}
+
+@media screen and (min-width: 1050px) {
+	.main-content {
+		max-width: 1050px;
+		margin: 0 auto;
 	}
 }
 </style>
