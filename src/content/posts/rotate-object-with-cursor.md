@@ -1,6 +1,6 @@
 ---
-title: 'Rotate an Object According to Cursor Position'
-pubDate: 2024-02-06
+title: 'Rotate an Object According to Cursor Position in ThreeJs'
+pubDate: 2024-04-16
 description: 'Notes from building my first animation'
 author: 'Cats-n-Coffee'
 image:
@@ -104,6 +104,15 @@ We'll use `[-300, 300]` pixels (or fragments rather), and assume that if the cur
 
 We'll simply this to start, and use ranges starting at 0. Therefore, eye rotation range is `[0, 45]`, and cursor range `[0, 300]`. That means we're only paying attention to the right half of the viewport for now.
 
+Let's update our mouse move listener to take the smallest of values for the X axis:
+```javascript
+document.addEventListener('mousemove', throttle((e) => {
+    cursor.x = Math.min(e.clientX - (sizes.width / 2), 300);
+    cursor.y = -(e.clientY - (sizes.height / 2));
+}, 100));
+```
+Note that this won't work for the left side, we're only using this to test the right side.
+
 We have two ranges, which need to translate `cursor at 300px --> eyes rotated at 45 degrees`. So we'd need our pixels range to get converted into the degrees range. Google is our friend, and searching for `convert a range to another range`, eventually gets us on this [SO post](https://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio) . That's all we need:
 ```javascript
 const maxAngle = 45; // new range
@@ -111,8 +120,43 @@ const maxPixels = 300; // old range
 
 const newAngle = (((cursor.x - 0) * maxAngle) / maxPixels) + 0;
 ```
+We're getting the correct angles according to cursor's X position. Now we need to rotate the cube.
 
+## Rotating the Cube
 
+If we try to plug our `newAngle` directly, we can see that the cube is rotating too much.
+Adding this line to our `loop` function:
+```javascript
+cube.rotation.y = newAngle;
+```
+seems to make the cube rotating by this angle **on top of the current angle**. 
+Thinking a little bit more, if probably need the difference between the current angle and the new angle:
+```javascript
+cube.rotation.y = newAngle - cube.rotation.y;
+```
+Nope, that's not it.
+
+Logging those values, seems that they could be used indeed, just not like that.
+There is also something that wasn't taken into account so far, the different kinds of rotations. We've been calculating degrees, while the model rotation is expressed in radians. [Here](https://byjus.com/maths/degrees-to-radians/) is a nice page to help out with the conversion.
+
+Taking a big step back, commenting all the cube rotation updates and adding those two lines:
+```javascript
+// Add outside the loop
+console.log(Math.PI * 0.25);
+cube.rotation.y = Math.PI * 0.25;
+```
+Our cube is rotated 45 degrees, but the logged value is 0.7853... . So we know what value to expect once we plug the radians formula.
+
+Let's convert our angle to radians and rotate the cube:
+```javascript
+// inside the loop
+console.log((newAngle - cube.rotation.y) * Math.PI / 180); // ~ 0.78...
+cube.rotation.y = (newAngle - cube.rotation.y) * Math.PI / 180;
+```
+
+If we bring the cursor all the way to right until the cube no longer rotates, we should log something close to 0.78... .
+
+This seems like a good start for the right side.
 
 
 
