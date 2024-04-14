@@ -158,6 +158,44 @@ If we bring the cursor all the way to right until the cube no longer rotates, we
 
 This seems like a good start for the right side.
 
+## Adding the Left Side
 
+All the logic and behavior holds for the left side, there one thing we need update. In the mouse move listener, the `Math.min()` needs to be swapped for a clamp function. We could write one ourselves, or since we already have ThreeJs imported, we can use the one provided. Our event handler looks like this:
+```javascript
+document.addEventListener('mousemove', throttle((e) => {
+    cursor.x = THREE.MathUtils.clamp(e.clientX - (sizes.width / 2), -300, 300);
+    cursor.y = THREE.MathUtils.clamp(-(e.clientY - (sizes.height / 2)), -400, 400);
+}, 100));
+```
+
+We can also clamp the values for the cursor Y while we're there.
+
+## Adding Up and Down Rotations
+
+All the logic is the same, we only need to swap X values for Y values, and declare a new variable for `maxPixelsY`. So far, it also seems that the minus sign to invert the `clientY` value can be removed, at least for this simple cube.
+
+This is the cleaned up code for the event listener and constants:
+```javascript
+const cursor = { x: 0, y: 0 };
+const maxAngle = 45; // new range
+const maxPixelsX = 300; // old range
+const maxPixelsY = 400; // old range
+
+document.addEventListener('mousemove', throttle((e) => {
+    cursor.x = THREE.MathUtils.clamp(e.clientX - (sizes.width / 2), -maxPixelsX, maxPixelsX);
+    cursor.y = THREE.MathUtils.clamp(e.clientY - (sizes.height / 2), -maxPixelsY, maxPixelsY);
+}, 100));
+```
+
+And inside the `loop` function:
+```javascript
+const newAngleY = (((cursor.x - 0) * maxAngle) / maxPixelsX) + 0;
+const newAngleX = (((cursor.y - 0) * maxAngle) / maxPixelsY) + 0;
+
+cube.rotation.y = (newAngleY - cube.rotation.y) * Math.PI / 180;
+cube.rotation.x = (newAngleX - cube.rotation.x) * Math.PI / 180;
+```
+
+This is a great start, next step will be to apply this to our cat model, which position is offset to the left and lower half of the viewport. This means the cursor's (0, 0) will need to be adjusted to match the object's position.
 
 
