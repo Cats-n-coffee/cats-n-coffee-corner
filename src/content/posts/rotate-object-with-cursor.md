@@ -24,8 +24,13 @@ Just because of curiosity, it started with adding basic code for listening to th
 After briefly trying to get the actual eye mesh from the cat model to follow the cursor, it becomes clear that the problem needs to be broken down into multiple parts, so we can simplify each piece of it, and get each one of these to work. As the title suggests, this post is about breaking down the problem to rotate an *object* according to cursor position (not the eyes of the cat just yet).
 
 This is a summary of the steps:
-1. Grab a piece of paper and a penCIL (if you grab a pen, that's up to you)
+1. Grab a piece of paper and a penCIL (if you grab a pen, that's up to you).
+2. Understand the problem: translate eye rotation - cursor movement into simple rules.
+3. Simplify the problem: break it down into multiple tasks, figure out the pieces needed.
+4. Implement pieces in a simplified environment.
+5. Build up complexity as needed.
 
+The following code and explanation assume there is basic ThreeJs scene setup with a cube, and the canvas takes the entire viewport.  
 ### Determine Eye Movements and the Relation to the Cursor
 
 On paper, we can draw a simple rectangle representing the screen, a simple cat head with eyes in the middle of the rectangle, and identify our X and Y axes.
@@ -84,6 +89,10 @@ Back to the piece of paper. Let's draw a rectangle (our viewport), a cube in the
 Since our cube has the correct center, we need to bring our cursor up to speed, so they both have their center in the middle of the viewport.
 We'll update the mouse move listener (might be a good idea to throttle such event):
 ```javascript
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+};
 const cursor = { x: 0, y: 0 };
 
 document.addEventListener('mousemove', throttle((e) => {
@@ -120,6 +129,7 @@ const maxPixels = 300; // old range
 
 const newAngle = (((cursor.x - 0) * maxAngle) / maxPixels) + 0;
 ```
+
 We're getting the correct angles according to cursor's X position. Now we need to rotate the cube.
 
 ## Rotating the Cube
@@ -196,6 +206,38 @@ cube.rotation.y = (newAngleY - cube.rotation.y) * Math.PI / 180;
 cube.rotation.x = (newAngleX - cube.rotation.x) * Math.PI / 180;
 ```
 
-This is a great start, next step will be to apply this to our cat model, which position is offset to the left and lower half of the viewport. This means the cursor's (0, 0) will need to be adjusted to match the object's position.
+This is a great start, next step will be to apply this to a model with the position offset to the left and lower half of the viewport. This means the cursor's (0, 0) will need to be adjusted to match the object's position.
+
+## Make an Object the Pivot Point
+
+So far, we were using the default's ThreeJs object positioning in the center of the scene, and adjusted our cursor's (0, 0) coordinates accordingly. But once we transfer all this to the cat model, this won't work, because the cat won't be at the center of the scene. 
+
+Let's make the object the cursor's (0, 0). To start, we'll need the object's coordinates in pixels. 
+
+```javascript
+const cubePosition = cube.position.clone();
+cubePosition.project(camera); // values on -1 to 1 range
+
+// offset from center of the scene - we can round the values
+const cubeScreenPositionX = Math.round(cubePosition.x * (sizes.width / 2));
+const cubeScreenPositionY = Math.round(cubePosition.y * (sizes.height / 2));
+```
+
+Then to update the cursor's (0, 0) coordinates, we can follow the same operations our object went through: from the center of the scene (0, 0), offset X and Y to the desired position.
+
+```javascript
+// (0, 0) at center of the scene + object offset
+const objectCenterX = ((sizes.width / 2) + cubeScreenPositionX);
+const objectCenterY = ((sizes.height / 2) + cubeScreenPositionY);
+
+document.addEventListener('mousemove', throttle((e) => {
+    cursor.x = THREE.MathUtils.clamp(e.clientX - objectCenterX, -maxPixelsX, maxPixelsX);
+    cursor.y = THREE.MathUtils.clamp(e.clientY - objectCenterY, -maxPixelsY, maxPixelsY);
+
+}, 100));
+```
+
+Previously, we did `e.clientX - (sizes.width / 2)` to place the cursor's (0, 0) from the usual top left, to the middle of the viewport.
+We now need to move the cursor from the middle of the viewport to the center of our object, essentially adding the object's coordinates to half the viewport in both directions. 
 
 
