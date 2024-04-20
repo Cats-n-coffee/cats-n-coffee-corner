@@ -20,24 +20,13 @@ let mixer;
 let eyeBall1;
 let eyeBall2;
 
-let mainEyeCTL;
-
 let catEye1CenterX;
 let catEye1CenterY;
-
-let catEye2CenterX;
-let catEye2CenterY;
 
 gltfLoader.load(
     '/src/assets/models/secondcat.glb',
     (gltf) => {
-        // console.log(gltf);
-
-        // mixer = new THREE.AnimationMixer(gltf.scene);
-        // const actionLeft = mixer.clipAction(gltf.animations[6]);
-        // actionLeft.play();
-        // const actionRight = mixer.clipAction(gltf.animations[8]);
-        // actionRight.play();
+        console.log(gltf);
 
         gltf.scene.scale.set(1, 1, 1);
         gltf.scene.position.y = -4.0;
@@ -72,6 +61,13 @@ gltfLoader.load(
         // Make the object the cursor's center
         catEye1CenterX = (WIDTH / 2) + catEye1ScreenPositionX;
         catEye1CenterY = (HEIGHT / 2) + catEye1ScreenPositionY;
+
+        // Tail Animation
+        mixer = new THREE.AnimationMixer(gltf.scene);
+
+        let tailClip = THREE.AnimationClip.findByName(gltf.animations, 'TailBonesAction');
+        const tailBonesAction = mixer.clipAction(tailClip);
+        tailBonesAction.play();
     }
 );
 
@@ -144,7 +140,6 @@ document.addEventListener('mousemove', throttle((e) => {
         cursor.x = THREE.MathUtils.clamp(e.clientX - catEye1CenterX, -300, 300);
         cursor.y = THREE.MathUtils.clamp(e.clientY - catEye1CenterY, -400, 400);
     }
-    console.log('cat x', catEye1CenterX, 'cay y', catEye1CenterY);
 }, 100));
 
 const maxAngle = 45; // new range
@@ -158,12 +153,9 @@ const minPixelsY = -400; // old range
 const clock = new THREE.Clock();
 
 const loop = () => {
-    const elapsedTime = clock.getElapsedTime();
-
-    // Update controls
-    //controls.update();
-
-    // if (mixer) mixer.update(clock.getDelta());
+    if (mixer) {
+        mixer.update(clock.getDelta());
+    }
 
     // =============== Rotation solution works on the meshes directly
     if (catEye1CenterX && catEye1CenterY) {
@@ -172,7 +164,6 @@ const loop = () => {
  
         eyeBall1.rotation.x = THREE.MathUtils.degToRad(newAngleX - eyeBall1.rotation.x);
         eyeBall1.rotation.y = THREE.MathUtils.degToRad(newAngleY - eyeBall1.rotation.y);
-        // console.log('x rotation', eyeBall1.rotation.x, 'y rotation', eyeBall1.rotation.y);
 
         eyeBall2.rotation.x = THREE.MathUtils.degToRad(newAngleX - eyeBall2.rotation.x);
         eyeBall2.rotation.y = THREE.MathUtils.degToRad(newAngleY - eyeBall2.rotation.y);
@@ -182,7 +173,8 @@ const loop = () => {
     renderer.render(scene, camera);
 
     // Call loop again on the next frame
-    window.requestAnimationFrame(loop);
+    // window.requestAnimationFrame(loop);
 }
+renderer.setAnimationLoop(loop);
 
 loop();
