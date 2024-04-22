@@ -20,6 +20,10 @@ let mixer;
 let eyeBall1;
 let eyeBall2;
 
+let pupil1;
+let pupil2;
+let enlargeEyes = false;
+
 let catEye1CenterX;
 let catEye1CenterY;
 
@@ -36,12 +40,11 @@ gltfLoader.load(
         scene.add(gltf.scene);
         // ========================= NEW IMPL SECOND CAT =====================
         gltf.scene.traverse((child) => {
-            if (child.name === 'EyeBoneL') {
-                eyeBall1 = child;
-            }
-            if (child.name === 'EyeBoneR') {
-                eyeBall2 = child;
-            }
+            if (child.name === 'EyeBoneL') eyeBall1 = child;
+            if (child.name === 'EyeBoneR') eyeBall2 = child;
+  
+            if (child.name === 'PupilL') pupil1 = child;
+            if (child.name === 'PupilR') pupil2 = child;
         })
 
         // =================== Cat eye position in pixels
@@ -78,29 +81,21 @@ scene.add(ambientLight);
 
 
 // ================= Objects
-// const mesh = new THREE.Mesh(
-//     new THREE.PlaneGeometry(10, 10),
-//     new THREE.MeshStandardMaterial({ color: 'red', side: THREE.DoubleSide }),
-// );
-// mesh.rotation.x = Math.PI * 0.5;
-
-// scene.add(mesh);
-
 // const cubeCenter = new THREE.Mesh(
-//     new THREE.BoxGeometry(0.5, 0.5, 0.5),
+//     new THREE.BoxGeometry(1, 1, 1),
 //     new THREE.MeshBasicMaterial({ color: 'yellow' }),
 // );
 // cubeCenter.position.z = -4;
 // scene.add(cubeCenter);
 
-// const cube = new THREE.Mesh(
-//     new THREE.BoxGeometry(0.5, 0.5, 0.5),
-//     new THREE.MeshBasicMaterial({ color: 'green' }),
-// );
-// cube.position.z = -4;
-// cube.position.y = 4.55;
-// cube.position.x = 0.4766;
-// scene.add(cube);
+const cube = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 'green' }),
+);
+cube.position.z = -4;
+cube.position.y = -3.5;
+cube.position.x = 0;
+scene.add(cube);
 
 // =================== Camera and Controls
 const frustrumSize = 10;
@@ -121,6 +116,60 @@ scene.add(camera);
 // const controls = new OrbitControls(camera, canvas);
 // controls.enableDamping = true;
 
+// ===================== Detect mouse over square/coffee mug
+
+// Top Left
+const cubeTopLeftPosition = new THREE.Vector3(
+    cube.position.x - (cube.geometry.parameters.width / 2),
+    cube.position.y + (cube.geometry.parameters.height / 2),
+    cube.position.z,
+);
+cubeTopLeftPosition.project(camera); // normalize position
+
+// const cubeTopLeftX = (1 + cubeTopLeftPosition.x) / 2 * WIDTH;
+// const cubeTopLeftY = (1 - cubeTopLeftPosition.y) / 2 * HEIGHT;
+
+// Top Right
+// const cubeTopRightPosition = new THREE.Vector3(
+//     cube.position.x + (cube.geometry.parameters.width / 2),
+//     cube.position.y + (cube.geometry.parameters.height / 2),
+//     cube.position.z,
+// );
+// cubeTopRightPosition.project(camera); // normalize position
+
+// const cubeTopRightX = (1 + cubeTopRightPosition.x) / 2 * WIDTH;
+// const cubeTopRightY = (1 - cubeTopRightPosition.y) / 2 * HEIGHT;
+// console.log('top right x and y', cubeTopRightX, cubeTopRightY);
+
+// Bottom Left
+// const cubeBottomLeftPosition = new THREE.Vector3(
+//     cube.position.x - (cube.geometry.parameters.width / 2),
+//     cube.position.y - (cube.geometry.parameters.height / 2),
+//     cube.position.z,
+// );
+// cubeBottomLeftPosition.project(camera); // normalize position
+
+// const cubeBottomLeftX = (1 + cubeBottomLeftPosition.x) / 2 * WIDTH;
+// const cubeBottomLeftY = (1 - cubeBottomLeftPosition.y) / 2 * HEIGHT;
+// console.log('bottom left x and y', cubeBottomLeftX, cubeBottomLeftY);
+
+// Bottom Right
+const cubeBottomRightPosition = new THREE.Vector3(
+    cube.position.x + (cube.geometry.parameters.width / 2),
+    cube.position.y - (cube.geometry.parameters.height / 2),
+    cube.position.z,
+);
+cubeBottomRightPosition.project(camera); // normalize position
+
+// const cubeBottomRightX = (1 + cubeBottomRightPosition.x) / 2 * WIDTH;
+// const cubeBottomRightY = (1 - cubeBottomRightPosition.y) / 2 * HEIGHT;
+
+// All 4 coordinates
+const cubeLeftSide =  (1 + cubeTopLeftPosition.x) / 2 * WIDTH;
+const cubeRightSide = (1 + cubeBottomRightPosition.x) / 2 * WIDTH;
+const cubeTop = (1 - cubeTopLeftPosition.y) / 2 * HEIGHT;
+const cubeBottom = (1 - cubeBottomRightPosition.y) / 2 * HEIGHT;
+
 // =================== Renderer
 const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -130,8 +179,6 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(WIDTH, HEIGHT);
 renderer.render(scene, camera);
 
-
-
 // =================== Mouse motions
 const cursor = { x: 0, y: 0 };
 
@@ -139,6 +186,12 @@ document.addEventListener('mousemove', throttle((e) => {
     if (catEye1CenterX && catEye1CenterY) {
         cursor.x = THREE.MathUtils.clamp(e.clientX - catEye1CenterX, -300, 300);
         cursor.y = THREE.MathUtils.clamp(e.clientY - catEye1CenterY, -400, 400);
+
+        if (
+            (e.clientX > cubeLeftSide && e.clientX < cubeRightSide)
+            && (e.clientY > cubeTop && e.clientY < cubeBottom)
+        ) enlargeEyes = true;
+        else enlargeEyes = false;
     }
 }, 100));
 
@@ -168,6 +221,17 @@ const loop = () => {
         eyeBall2.rotation.x = THREE.MathUtils.degToRad(newAngleX - eyeBall2.rotation.x);
         eyeBall2.rotation.y = THREE.MathUtils.degToRad(newAngleY - eyeBall2.rotation.y);
     }
+
+    if (pupil1 && pupil2) {
+        if (enlargeEyes) {
+            pupil1.scale.x = 2.5;
+            pupil2.scale.x = 2.5;
+        } else {
+            pupil1.scale.x = 1;
+            pupil2.scale.x = 1;
+        }
+    }
+    
 
     // Render
     renderer.render(scene, camera);
