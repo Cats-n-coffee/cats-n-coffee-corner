@@ -36,6 +36,7 @@ let hasAnimiationPlayed = false;
 let enlargeEyes = false;
 let enlargeEyesCounter = 0;
 const enlargeEyesDuration = 420;
+let hasCleanedUp = false;
 
 gltfLoader.load(
     '/src/assets/models/secondcat.glb',
@@ -50,6 +51,28 @@ gltfLoader.load(
         scene.add(gltf.scene);
         // ========================= NEW IMPL SECOND CAT =====================
         gltf.scene.traverse((child) => {
+            if (child.name === 'Body') {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+            if (child.name === 'HeaD') {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+            if (child.name === 'LegR') {
+                child.castShadow = false;
+                child.receiveShadow = true;
+            }
+            if (child.name === 'LegL') {
+                child.castShadow = false;
+                child.receiveShadow = true;
+            }
+            if (child.name === 'Cup') {
+                child.castShadow = false;
+                child.receiveShadow = false;
+            }
+
+            // Eyes and pupils for animation
             if (child.name === 'EyeBoneL') eyeBall1 = child;
             if (child.name === 'EyeBoneR') eyeBall2 = child;
   
@@ -98,8 +121,12 @@ gltfLoader.load(
 
 
 // ================= Lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.6);
+directionalLight.castShadow = true;
+scene.add(directionalLight);
 
 
 // ================= Objects
@@ -111,12 +138,12 @@ scene.add(ambientLight);
 // scene.add(cubeCenter);
 
 const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 'green' }),
+    new THREE.BoxGeometry(1.8, 1.3, 1),
+    new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 0 }),
 );
 cube.position.z = -4;
-cube.position.y = -3.5;
-cube.position.x = 0;
+cube.position.y = -3.4;
+cube.position.x = -0.1;
 scene.add(cube);
 
 // =================== Camera and Controls
@@ -199,6 +226,7 @@ const renderer = new THREE.WebGLRenderer({
     alpha: true,
 });
 renderer.setSize(WIDTH, HEIGHT);
+renderer.shadowMap.enabled = true;
 renderer.render(scene, camera);
 
 // =================== Mouse motions
@@ -206,8 +234,10 @@ const cursor = { x: 0, y: 0 };
 
 document.addEventListener('mousemove', throttle((e) => {
     if (catEye1CenterX && catEye1CenterY) {
-        cursor.x = THREE.MathUtils.clamp(e.clientX - catEye1CenterX, -300, 300);
-        cursor.y = THREE.MathUtils.clamp(e.clientY - catEye1CenterY, -400, 400);
+        if(!enlargeEyes) {
+            cursor.x = THREE.MathUtils.clamp(e.clientX - catEye1CenterX, -300, 300);
+            cursor.y = THREE.MathUtils.clamp(e.clientY - catEye1CenterY, -400, 400);
+        }
 
         if (
             !hasAnimiationPlayed
@@ -224,10 +254,12 @@ document.addEventListener('mousemove', throttle((e) => {
                 cupAction.play();
             }
         }
-        else if (hasAnimiationPlayed && enlargeEyesCounter >= enlargeEyesDuration) {
+        else if (hasAnimiationPlayed && !hasCleanedUp && enlargeEyesCounter >= enlargeEyesDuration) {
             enlargeEyes = false;
             pupil1.scale.x = 1;
             pupil2.scale.x = 1;
+            scene.remove(cube);
+            hasCleanedUp = true;
         }
     }
 }, 100));
