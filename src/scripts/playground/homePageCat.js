@@ -16,16 +16,26 @@ const gltfLoader = new GLTFLoader();
 
 
 // =============== Models
-let mixer;
 let eyeBall1;
 let eyeBall2;
 
 let pupil1;
 let pupil2;
-let enlargeEyes = false;
 
 let catEye1CenterX;
 let catEye1CenterY;
+
+// Animation variables
+let mixer;
+let legBonesAction;
+let cupAction;
+
+// Cup and Leg loop once
+let hasAnimiationPlayed = false;
+// Eyes
+let enlargeEyes = false;
+let enlargeEyesCounter = 0;
+const enlargeEyesDuration = 420;
 
 gltfLoader.load(
     '/src/assets/models/secondcat.glb',
@@ -71,6 +81,18 @@ gltfLoader.load(
         let tailClip = THREE.AnimationClip.findByName(gltf.animations, 'TailBonesAction');
         const tailBonesAction = mixer.clipAction(tailClip);
         tailBonesAction.play();
+
+        let legClip = THREE.AnimationClip.findByName(gltf.animations, 'LegBonesAction');
+        legBonesAction = mixer.clipAction(legClip);
+        legBonesAction.setLoop(THREE.LoopOnce);
+        legBonesAction.clampWhenFinished = true;
+        legBonesAction.enable = true;
+
+        let cupClip = THREE.AnimationClip.findByName(gltf.animations, 'CupAction');
+        cupAction = mixer.clipAction(cupClip);
+        cupAction.setLoop(THREE.LoopOnce);
+        cupAction.clampWhenFinished = true;
+        cupAction.enable = true;
     }
 );
 
@@ -180,7 +202,7 @@ renderer.setSize(WIDTH, HEIGHT);
 renderer.render(scene, camera);
 
 // =================== Mouse motions
-const cursor = { x: 0, y: 0 };
+const cursor = { x: 0, y: 0 }; 
 
 document.addEventListener('mousemove', throttle((e) => {
     if (catEye1CenterX && catEye1CenterY) {
@@ -188,10 +210,25 @@ document.addEventListener('mousemove', throttle((e) => {
         cursor.y = THREE.MathUtils.clamp(e.clientY - catEye1CenterY, -400, 400);
 
         if (
-            (e.clientX > cubeLeftSide && e.clientX < cubeRightSide)
+            !hasAnimiationPlayed
+            && (e.clientX > cubeLeftSide && e.clientX < cubeRightSide)
             && (e.clientY > cubeTop && e.clientY < cubeBottom)
-        ) enlargeEyes = true;
-        else enlargeEyes = false;
+        ) {
+            enlargeEyes = true;
+            pupil1.scale.x = 2.5;
+            pupil2.scale.x = 2.5;
+
+            if (!hasAnimiationPlayed) {
+                hasAnimiationPlayed = true;
+                legBonesAction.play();
+                cupAction.play();
+            }
+        }
+        else if (hasAnimiationPlayed && enlargeEyesCounter >= enlargeEyesDuration) {
+            enlargeEyes = false;
+            pupil1.scale.x = 1;
+            pupil2.scale.x = 1;
+        }
     }
 }, 100));
 
@@ -222,16 +259,10 @@ const loop = () => {
         eyeBall2.rotation.y = THREE.MathUtils.degToRad(newAngleY - eyeBall2.rotation.y);
     }
 
-    if (pupil1 && pupil2) {
-        if (enlargeEyes) {
-            pupil1.scale.x = 2.5;
-            pupil2.scale.x = 2.5;
-        } else {
-            pupil1.scale.x = 1;
-            pupil2.scale.x = 1;
-        }
+    // Pupil meshes are loaded, and animation can run from mousemove
+    if (pupil1 && pupil2 && enlargeEyes && enlargeEyesCounter < enlargeEyesDuration) {
+        enlargeEyesCounter += 1;
     }
-    
 
     // Render
     renderer.render(scene, camera);
