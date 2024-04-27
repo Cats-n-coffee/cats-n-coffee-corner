@@ -7,7 +7,7 @@ const allPosts = await getCollection('posts');
 
 <Layout title="Cats-n-Coffee Corner">
 	<div class="main-content">
-		<h1><span class="text-gradient">Cats n Coffee</span> Corner</h1>
+		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
         <h2 class="basic-heading-two">Posts Available</h2>
         <ul class="basic-list">
             {allPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
