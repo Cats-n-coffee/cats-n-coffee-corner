@@ -1,6 +1,6 @@
 ---
 title: 'Rotate an Object According to Cursor Position in ThreeJs'
-pubDate: 2024-04-16
+pubDate: 2024-04-27
 description: 'Notes from building my first animation'
 author: 'Cats-n-Coffee'
 image:
@@ -14,31 +14,31 @@ This is the first post documenting the cat and coffee animation which will be on
 
 ## The End Goal
 
-The goal is to have the cat's eyes tracking the cursor. In other words, the eyes should rotate according the cursor position on the scene. As an example, if the cursor is in the top right corner of the scene, the eyes should look up and to the right. Note that this is a fixed screen without any controls, we only care about the mouse position. 
+The goal is to have the cat's eyes tracking the cursor. In other words, the eyes should rotate according to the cursor position on the scene. As an example, if the cursor is in the top right corner of the scene, the eyes should look up and to the right. Note that this is a fixed scene without any controls, the only interaction is with the mouse position. 
 ### Summary of a Hilarious Eye Rotation Experience
 
-Just because of curiosity, it started with adding basic code for listening to the `mousemove` event and update an object's `cursor.x` and `cursor.y` positions with their `event.clientX` and `Y` respective values. Then inside the `loop` function of the scene, adding this line `eyeBall.rotation.y = cursor.x;`. Result was funny and creepy, of course not the solution, which turned out to be a little more than that.
+To get a baseline (and understand where to begin), it started with adding basic code for listening to the `mousemove` event and update an object's `cursor.x` and `cursor.y` positions with their `event.clientX` and `Y` respective values. Then inside the `loop` function of the scene, adding this line `eyeBall.rotation.y = cursor.x;`. Result was funny and creepy, and gave insights about the next steps.
 
 ## Breaking Down the Problem
 
-After briefly trying to get the actual eye mesh from the cat model to follow the cursor, it becomes clear that the problem needs to be broken down into multiple parts, so we can simplify each piece of it, and get each one of these to work. As the title suggests, this post is about breaking down the problem to rotate an *object* according to cursor position (not the eyes of the cat just yet).
+After briefly trying to get the actual eye mesh from the cat model to follow the cursor, it becomes clear that the problem needs to be broken down into multiple parts, and work on each individually. As the title suggests, this post is about breaking down the problem to rotate an *object* according to cursor position (not the eyes of the cat just yet).
 
-This is a summary of the steps:
-1. Grab a piece of paper and a penCIL (if you grab a pen, that's up to you).
-2. Understand the problem: translate eye rotation - cursor movement into simple rules.
-3. Simplify the problem: break it down into multiple tasks, figure out the pieces needed.
+Summary of the steps:
+1. Grab a piece of paper and a pencil.
+2. Understand the problem: translate eye rotation - cursor movement relationship into simple rules.
+3. Simplify the problem: break it down into multiple tasks.
 4. Implement pieces in a simplified environment.
 5. Build up complexity as needed.
 
-The following code and explanation assume there is basic ThreeJs scene setup with a cube, and the canvas takes the entire viewport.  
+The following code and explanation assume there is basic ThreeJs scene setup with a cube, and the canvas takes the entire viewport (we'll use the window width and height).  
 ### Determine Eye Movements and the Relation to the Cursor
 
 On paper, we can draw a simple rectangle representing the screen, a simple cat head with eyes in the middle of the rectangle, and identify our X and Y axes.
 
 Which kind of rotation do we need? We might have at least two parts to consider:
 1. Our cursor moves on a "flat" plane with X and Y coordinates, so we probably will use rotation on those same axes, as our cursor cannot move on the Z axis.
-2. Let's consider eye rotation (Note: I am not responsible for any injuries if you try the following). Similar to doctor's tests, if you place your finger vertical in front of you, you'll notice we're rotating on the X and Y axes. 
-   If you move your finger up and down, that's rotation on X. If you move your finger left to right, that's rotation on Y.
+2. Let's consider eye rotation (Note: I am not responsible for any injuries if you try the following). Similar to a doctor's tests, with your finger vertical in front of you, if you move your finger up and down, that's rotation on X. If you move your finger left to right, that's rotation on Y.
+   This gives us the eye rotation - target (cursor) translation relationship. 
 
 We can summarize like this:
 ```
@@ -46,8 +46,9 @@ Eyes rotate left/right --> rotation on Y
 Eyes rotate up/down --> rotation on X
 ```
 
-Back to the piece of paper. Let's place a point directly to the right of the cat. The cat would look to the right. If that point is our cursor and we only look at `clientX`, then we can observe that cursor's X position affects left and right rotation.
-If we place a point directly above the head of the cat,  the cat would look up. If we only look at `clientY`, then we can observe that cursor's Y position affects up and down rotation.
+Back to the piece of paper, to understand which rotation (X or Y) is affected by the cursor's position (X or Y).
+Let's place a point directly to the right of the cat. If that point is our cursor and our cat looks at it, then we can observe that cursor's X (`clientX`) position affects left and right rotation.
+If we place a point directly above the head of the cat,  the cat would look up, and we can observe that cursor's Y (`clientY`)position affects up and down rotation.
 
 We can reuse the previous summary:
 ```
@@ -83,7 +84,7 @@ void main() {
 
 *Code is from the great ThreeJs Journey course, Shader Patterns chapter.*
 
-To keep things simple, we'll keep the center of the scene as our (0, 0) coordinates, so rotations happen from the center of the cube (which is placed in the middle by ThreeJs by default). But since the (0, 0) of the viewport is by default the top left corner, we need to adjust that.
+To keep things simple, we'll keep the center of the scene as our (0, 0) coordinates, so rotations happen from the center of the cube (which is placed in the middle by ThreeJs by default). But outside of ThreeJs, since the (0, 0) of the viewport is by default the top left corner, we need to adjust that.
 
 Back to the piece of paper. Let's draw a rectangle (our viewport), a cube in the center (our cube), and split the viewport in four quadrants intersecting in the middle. 
 Since our cube has the correct center, we need to bring our cursor up to speed, so they both have their center in the middle of the viewport.
@@ -111,7 +112,7 @@ Let's determines our ranges, because in real life, cat or human eyes only rotate
 We'll use `[-45, 45]` degrees of eye rotation, and assume that past 45 degrees, the eyes won't rotate any more. That means we also need a range for our cursor.
 We'll use `[-300, 300]` pixels (or fragments rather), and assume that if the cursor goes past those numbers, nothing more will happen.
 
-We'll simply this to start, and use ranges starting at 0. Therefore, eye rotation range is `[0, 45]`, and cursor range `[0, 300]`. That means we're only paying attention to the right half of the viewport for now.
+We'll simplify this to start, and use ranges starting at 0. Therefore, eye rotation range is `[0, 45]`, and cursor range `[0, 300]`. That means we're only paying attention to the right half of the viewport for now.
 
 Let's update our mouse move listener to take the smallest of values for the X axis:
 ```javascript
@@ -122,7 +123,7 @@ document.addEventListener('mousemove', throttle((e) => {
 ```
 Note that this won't work for the left side, we're only using this to test the right side.
 
-We have two ranges, which need to translate `cursor at 300px --> eyes rotated at 45 degrees`. So we'd need our pixels range to get converted into the degrees range. Google is our friend, and searching for `convert a range to another range`, eventually gets us on this [SO post](https://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio) . That's all we need:
+We have two ranges (`[0, 300]` and `[0, 45]`), we need to translate one to the other, to get: `cursor at 300px --> eyes rotated at 45 degrees`. So we'd need our pixels range to get converted into the degrees range. Google is our friend, and searching for `convert a range to another range`, eventually gets us on this [SO post](https://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio) . That's all we need:
 ```javascript
 const maxAngle = 45; // new range
 const maxPixels = 300; // old range
@@ -140,7 +141,7 @@ Adding this line to our `loop` function:
 cube.rotation.y = newAngle;
 ```
 seems to make the cube rotating by this angle **on top of the current angle**. 
-Thinking a little bit more, if probably need the difference between the current angle and the new angle:
+We probably need the difference between the current angle and the new angle:
 ```javascript
 cube.rotation.y = newAngle - cube.rotation.y;
 ```
@@ -164,13 +165,13 @@ console.log((newAngle - cube.rotation.y) * Math.PI / 180); // ~ 0.78...
 cube.rotation.y = (newAngle - cube.rotation.y) * Math.PI / 180;
 ```
 
-If we bring the cursor all the way to right until the cube no longer rotates, we should log something close to 0.78... .
+If we bring the cursor all the way to right until the cube no longer rotates, we should log something close to 0.78... . Note that ThreeJs provides a `degToRad()` function in their Math utils. The final solution uses that, but while figuring out those steps, reading the formula was a nice thing to learn.
 
 This seems like a good start for the right side.
 
 ## Adding the Left Side
 
-All the logic and behavior holds for the left side, there one thing we need update. In the mouse move listener, the `Math.min()` needs to be swapped for a clamp function. We could write one ourselves, or since we already have ThreeJs imported, we can use the one provided. Our event handler looks like this:
+All the logic and behavior holds for the left side, there one thing we need to update. In the mouse move listener, the `Math.min()` needs to be swapped for a clamp function. We could write one ourselves, or since we already have ThreeJs imported, we can use the one provided. Our event handler looks like this:
 ```javascript
 document.addEventListener('mousemove', throttle((e) => {
     cursor.x = THREE.MathUtils.clamp(e.clientX - (sizes.width / 2), -300, 300);
@@ -216,7 +217,7 @@ Let's make the object the cursor's (0, 0). To start, we'll need the object's coo
 
 ```javascript
 const cubePosition = cube.position.clone();
-cubePosition.project(camera); // values on -1 to 1 range
+cubePosition.project(camera); // values in [-1, 1] range
 
 // offset from center of the scene - we can round the values
 const cubeScreenPositionX = Math.round(cubePosition.x * (sizes.width / 2));
@@ -238,6 +239,40 @@ document.addEventListener('mousemove', throttle((e) => {
 ```
 
 Previously, we did `e.clientX - (sizes.width / 2)` to place the cursor's (0, 0) from the usual top left, to the middle of the viewport.
-We now need to move the cursor from the middle of the viewport to the center of our object, essentially adding the object's coordinates to half the viewport in both directions. 
+Now, we need to move the cursor from the middle of the viewport to the center of our object, essentially adding the object's coordinates to half the viewport in both directions. 
 
+## Testing on the Cat
+
+After making a basic cat model in Blender with a body, a tail, two legs and two eyes (cat is sitting), we can add it to the scene and figure out the last parts.
+
+Once the eye meshes are retrieved, it seems to work, besides the pivot point seems off. After doing some digging and debugging, logging the position of the cat, the eyes, and adding a center square, it's starting to make sense. The eye's position are *local* coordinates of the model, meaning that once we uploaded the model and retrieved the eyes coordinates, our mouse center was using the wrong numbers. 
+
+We need to convert the eye local coordinates to the world's:
+```javascript
+// Inside gltfLoader.load()
+// First, we need to convert the eye's local coordinates to the world's  
+const catEye1PositionToWorld = new THREE.Vector3();
+eyeBall1.localToWorld(catEye1PositionToWorld);
+eyeBall1.updateMatrixWorld();
+
+// Then clone the vector to "normalize it"
+const catEye1Position = catEye1PositionToWorld.clone();
+catEye1Position.project(camera); // normalize position
+
+// Convert to pixels - distance from center converted to pixels
+const catEye1ScreenPositionX = Math.round(catEye1Position.x * (WIDTH / 2));
+const catEye1ScreenPositionY = Math.round(catEye1Position.y * (HEIGHT / 2));
+
+// Make the object the cursor's center
+catEye1CenterX = (WIDTH / 2) + catEye1ScreenPositionX; // Global Variable
+catEye1CenterY = (HEIGHT / 2) + catEye1ScreenPositionY; // Global Variable
+```
+
+This is enough to re-center our mouse cursor to the eyes, and concludes this post.
+The final code looks slightly different, re-organized and more performant from removing operations from the loop, as well as strengthening conditionals.
+
+One take away not mentioned until now, if using imported models. If you are starting with ThreeJs (or any graphics tool) and starting with Blender (or another modeling tool), the model used for this, can make things harder. Here are a couple things I learned along the way:
+- Check every mesh in Blender and ensure normals are re-calculated (rotations at 0, scale at 1),
+- It's much easier to export  a model built at the world origin,
+- When figuring out any animation, create a very simple mesh with the very minimum needed, because you'll likely modify it multiple times. And the fancy (unnecessary) stuff could get in the way.
 
