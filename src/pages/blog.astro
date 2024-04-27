@@ -14,7 +14,7 @@ const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pu
             {sortedPosts.map((post) => <li>
                     <a class="post-link" href={`/posts/${post.slug}`}>
                         <span>{post.data.title}</span>
-                        <span>{post.data.pubDate.toString().slice(3, 15)}</span>
+                        <span class="post-link-date">{post.data.pubDate.toString().slice(3, 15)}</span>
                     </a>
                 </li>)}
         </ul>
@@ -23,13 +23,14 @@ const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pu
 
 <style>
 ul {
-    padding-left: 0;
+    padding: 0;
     margin-left: 0;
 
     li {
         margin-left: 0;
-        line-height: 3em;
+        line-height: normal;
         border-bottom: 1px solid var(--secondary-light);
+        padding: 1em 0;
     }
 }
 
@@ -37,6 +38,16 @@ ul {
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
+}
+
+.post-link-date {
+    display: none;
+}
+
+@media screen and (min-width: 635px) {
+    .post-link-date {
+        display: inline;
+    }
 }
 
 @media screen and (min-width: 1050px) {
