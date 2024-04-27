@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 ---
 
 <Layout title="Cats-n-Coffee Corner">
@@ -10,12 +11,22 @@ const allPosts = await getCollection('posts');
 		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
         <h2 class="basic-heading-two">Posts Available</h2>
         <ul class="basic-list">
-            {allPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
+            {sortedPosts.map((post) => <li><a href={`/posts/${post.slug}`}>{post.data.title}</a></li>)}
         </ul>
 	</div>
 </Layout>
 
 <style>
+ul {
+    padding-left: 0;
+    margin-left: 0;
+
+    li {
+        margin-left: 0;
+        line-height: 2em;
+    }
+}
+
 @media screen and (min-width: 1050px) {
     .main-content {
         max-width: 1050px;

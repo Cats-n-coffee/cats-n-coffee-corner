@@ -7,8 +7,8 @@ import '../styles/global.css';
 
 const allPosts = await getCollection('posts');
 const sortedPosts = allPosts
-  .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime())
-  .slice(-5);
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 5);
 ---
 
 <Layout title="Cats n Coffee Corner">
