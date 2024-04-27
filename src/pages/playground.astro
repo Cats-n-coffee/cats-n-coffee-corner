@@ -9,28 +9,34 @@ import '../styles/global.css';
 		<h1><span class="text-gradient">Cats-n-Coffee</span> Corner</h1>
 
         <section class="playground-content">
-			<p>Playground Under Construction</p>
-			<div class="playground-content-illustration">
-				<Icon name="screwdriver-wrench" />
-				<a href="/playground/cat/">Home Page building</a>
-			</div>
+			<h2 class="basic-heading-two">Playground Is Always a Work In progress</h2>
+			<ul role="list" class="basic-list">
+				<li><a href="/playground/cat/">First Draft of the Future Home Page - Cat Animation</a></li>
+			</ul>
 		</section>
 	</div>
 </Layout>
 
 <style>
-main {
-    padding: 1em 1em 1.5em 1em;
+.main-content {
+    margin: 0 1em;
+    padding-bottom: 1em;
 }
 
 .playground-content {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 
-	p {
-		font-size: 1.5em;
-		text-align: center;
+	ul {
+		padding: 0;
+		margin-left: 0;
+
+		li {
+			margin-left: 0;
+			line-height: normal;
+			border-bottom: 1px solid var(--secondary-light);
+			padding: 1em 0;
+		}
 	}
 }
 
