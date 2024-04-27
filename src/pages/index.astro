@@ -7,8 +7,8 @@ import '../styles/global.css';
 
 const allPosts = await getCollection('posts');
 const sortedPosts = allPosts
-  .sort((a, b) => a.data.pubDate.getTime() - b.data.pubDate.getTime())
-  .slice(-5);
+  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .slice(0, 5);
 ---
 
 <Layout title="Cats n Coffee Corner">
@@ -39,6 +39,10 @@ const sortedPosts = allPosts
 </Layout>
 
 <style>
+.main-content {
+	height: 100%;
+}
+
 .home-content {
 	display: flex;
 	align-items: center;
@@ -46,7 +50,6 @@ const sortedPosts = allPosts
 }
 
 .home-content-left {
-	width: 400px;
 	height: auto;
 
 	svg {
@@ -56,7 +59,6 @@ const sortedPosts = allPosts
 }
 
 .home-content-right {
-	margin-left: 40px;
 	font-size: 1.25em;
 	line-height: 1.5em;
 	padding-top: 2em;
@@ -70,7 +72,7 @@ const sortedPosts = allPosts
 	}
 	
 	.posts-list-all-tags {
-		padding-top: 2em;
+		margin-top: 1em;
 		font-size: 0.9em;
 	}
 }
@@ -111,9 +113,14 @@ const sortedPosts = allPosts
 		padding: 0 2em;
 	}
 
+	.home-content-left {
+		width: 400px;
+	}
+
 	.home-content-right {
 		max-width: 400px;
 		padding-top: 0;
+		margin-left: 40px;
 	}
 }
 
