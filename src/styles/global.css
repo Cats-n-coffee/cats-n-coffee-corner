@@ -31,7 +31,6 @@ html, body {
     font-family: system-ui, sans-serif;
     background: var(--secondary);
     color: var(--contrast);
-    overflow: hidden;
 }
 
 body {
