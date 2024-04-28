@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { throttle } from 'lodash-es';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 // =================== Constants
 const WIDTH = window.innerWidth;
@@ -11,7 +10,6 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 // =============== Texture Loader
-const textureLoader = new THREE.TextureLoader();
 const gltfLoader = new GLTFLoader();
 
 
@@ -41,15 +39,13 @@ let hasCleanedUp = false;
 gltfLoader.load(
     '/src/assets/models/secondcat.glb',
     (gltf) => {
-        console.log(gltf);
-
         gltf.scene.scale.set(1, 1, 1);
         gltf.scene.position.y = -4.0;
         gltf.scene.position.x = -2.0;
         gltf.scene.position.z = -10;
 
         scene.add(gltf.scene);
-        // ========================= NEW IMPL SECOND CAT =====================
+
         gltf.scene.traverse((child) => {
             if (child.name === 'Body') {
                 child.castShadow = true;
@@ -130,13 +126,6 @@ scene.add(directionalLight);
 
 
 // ================= Objects
-// const cubeCenter = new THREE.Mesh(
-//     new THREE.BoxGeometry(1, 1, 1),
-//     new THREE.MeshBasicMaterial({ color: 'yellow' }),
-// );
-// cubeCenter.position.z = -4;
-// scene.add(cubeCenter);
-
 const cube = new THREE.Mesh(
     new THREE.BoxGeometry(1.8, 1.3, 1),
     new THREE.MeshBasicMaterial({ color: 'green', transparent: true, opacity: 0 }),
@@ -146,12 +135,10 @@ cube.position.y = -3.4;
 cube.position.x = -0.1;
 scene.add(cube);
 
-// =================== Camera and Controls
+// =================== Camera
 const frustrumSize = 10;
 const aspectRatio = WIDTH / HEIGHT;
-// const camera = new THREE.PerspectiveCamera(75, WIDTH/HEIGHT, 0.1, 100);
-// camera.position.set(- 3, 3, 3);
-// camera.position.z = 10;
+
 const camera  = new THREE.OrthographicCamera(
     frustrumSize * aspectRatio / -2, // left
     frustrumSize * aspectRatio / 2, // right
@@ -161,9 +148,6 @@ const camera  = new THREE.OrthographicCamera(
     100, // far
 );
 scene.add(camera);
-
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
 
 // ===================== Detect mouse over square/coffee mug
 
@@ -175,33 +159,6 @@ const cubeTopLeftPosition = new THREE.Vector3(
 );
 cubeTopLeftPosition.project(camera); // normalize position
 
-// const cubeTopLeftX = (1 + cubeTopLeftPosition.x) / 2 * WIDTH;
-// const cubeTopLeftY = (1 - cubeTopLeftPosition.y) / 2 * HEIGHT;
-
-// Top Right
-// const cubeTopRightPosition = new THREE.Vector3(
-//     cube.position.x + (cube.geometry.parameters.width / 2),
-//     cube.position.y + (cube.geometry.parameters.height / 2),
-//     cube.position.z,
-// );
-// cubeTopRightPosition.project(camera); // normalize position
-
-// const cubeTopRightX = (1 + cubeTopRightPosition.x) / 2 * WIDTH;
-// const cubeTopRightY = (1 - cubeTopRightPosition.y) / 2 * HEIGHT;
-// console.log('top right x and y', cubeTopRightX, cubeTopRightY);
-
-// Bottom Left
-// const cubeBottomLeftPosition = new THREE.Vector3(
-//     cube.position.x - (cube.geometry.parameters.width / 2),
-//     cube.position.y - (cube.geometry.parameters.height / 2),
-//     cube.position.z,
-// );
-// cubeBottomLeftPosition.project(camera); // normalize position
-
-// const cubeBottomLeftX = (1 + cubeBottomLeftPosition.x) / 2 * WIDTH;
-// const cubeBottomLeftY = (1 - cubeBottomLeftPosition.y) / 2 * HEIGHT;
-// console.log('bottom left x and y', cubeBottomLeftX, cubeBottomLeftY);
-
 // Bottom Right
 const cubeBottomRightPosition = new THREE.Vector3(
     cube.position.x + (cube.geometry.parameters.width / 2),
@@ -209,9 +166,6 @@ const cubeBottomRightPosition = new THREE.Vector3(
     cube.position.z,
 );
 cubeBottomRightPosition.project(camera); // normalize position
-
-// const cubeBottomRightX = (1 + cubeBottomRightPosition.x) / 2 * WIDTH;
-// const cubeBottomRightY = (1 - cubeBottomRightPosition.y) / 2 * HEIGHT;
 
 // All 4 coordinates
 const cubeLeftSide =  (1 + cubeTopLeftPosition.x) / 2 * WIDTH;
@@ -264,6 +218,9 @@ document.addEventListener('mousemove', throttle((e) => {
     }
 }, 100));
 
+// =================== Render loop
+const clock = new THREE.Clock();
+
 const maxAngle = 45; // new range
 const minAngle = -45; // new range
 const maxPixelsX = 300; // old range
@@ -271,15 +228,12 @@ const minPixelsX = -300; // old range
 const maxPixelsY = 400; // old range
 const minPixelsY = -400; // old range
 
-// =================== Render loop
-const clock = new THREE.Clock();
-
 const loop = () => {
     if (mixer) {
         mixer.update(clock.getDelta());
     }
 
-    // =============== Rotation solution works on the meshes directly
+    // Rotation solution works on the meshes directly
     if (catEye1CenterX && catEye1CenterY) {
         const newAngleY = (((cursor.x - minPixelsX) * maxAngle) / maxPixelsX) + minAngle;
         const newAngleX = (((cursor.y - minPixelsY) * maxAngle) / maxPixelsY) + minAngle;
@@ -298,9 +252,6 @@ const loop = () => {
 
     // Render
     renderer.render(scene, camera);
-
-    // Call loop again on the next frame
-    // window.requestAnimationFrame(loop);
 }
 renderer.setAnimationLoop(loop);
 
