@@ -37,7 +37,7 @@ const enlargeEyesDuration = 420;
 let hasCleanedUp = false;
 
 gltfLoader.load(
-    '/src/assets/models/secondcat.glb',
+    '/models/secondcat.glb',
     (gltf) => {
         gltf.scene.scale.set(1, 1, 1);
         gltf.scene.position.y = -4.0;
