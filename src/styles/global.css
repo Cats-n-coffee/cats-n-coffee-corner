@@ -31,6 +31,7 @@ html, body {
     font-family: system-ui, sans-serif;
     background: var(--secondary);
     color: var(--contrast);
+    overflow: hidden;
 }
 
 body {
@@ -55,10 +56,6 @@ body.light {
 
 body.mobile-menu-opened {
     overflow: hidden;
-}
-
-main {
-    padding: 1em 1em 1.5em 1em;
 }
 
 code {

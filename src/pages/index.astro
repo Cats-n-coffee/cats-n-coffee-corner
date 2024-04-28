@@ -20,6 +20,10 @@ const sortedPosts = allPosts
 			</div>
 			
 			<div class="home-content-right">
+				<h2 class="basic-heading-two">Latest in Playground</h2>
+				<ul role="list" class="posts-list basic-list bottom-space">
+					<li><a href="/playground/cat/">First Draft of the Future Home Page - Cat Animation</a></li>
+				</ul>
 				<h2 class="basic-heading-two">Latest Posts</h2>
 				<ul role="list" class="posts-list basic-list">
 					{
@@ -104,6 +108,10 @@ const sortedPosts = allPosts
 	li:not(:last-child) {
 		margin-bottom: 4px;
 	}
+}
+
+.bottom-space {
+	margin-bottom: 1em;
 }
 
 @media screen and (min-width: 635px) {
