@@ -8,7 +8,7 @@ import '../styles/global.css';
 const allPosts = await getCollection('posts');
 const sortedPosts = allPosts
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-  .slice(0, 5);
+  .slice(0, 3);
 ---
 
 <Layout title="Cats n Coffee Corner">
@@ -43,10 +43,6 @@ const sortedPosts = allPosts
 </Layout>
 
 <style>
-.main-content {
-	height: 100%;
-}
-
 .home-content {
 	display: flex;
 	align-items: center;
